@@ -1,0 +1,6 @@
+.main {
+    font-family: fantasy;
+    font-size: 50px;
+    color: blueviolet;
+    transition: color 1000ms;
+}

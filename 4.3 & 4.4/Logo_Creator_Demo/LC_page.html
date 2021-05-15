@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Creator</title>
+</head>
+<body>
+    <h1>Logo Creator</h1>
+    <form id="logoform"> <!-- action attribute specifies where form should take us -->
+        <p>
+            <label for="">Enter a Brand name:
+                <input type='text' placeholder="Your Brand Here!" name="brandname">
+            </label>
+        </p>
+        <p>
+            <label for="color">Enter a Brand color:
+                <input type='color' name="color">
+            </label>
+        </p>
+        <p>
+            <label for="">Select Font Size:
+                <input type='range' name="fontsize" min='10' max='200'>
+            </label>
+        </p>
+        <input type='submit' name="submit">       
+    </form>
+    <!-- <input type="checkbox"> -->
+    <section id='results'>
+        <h2>Results Here!</h2>
+    </section>
+    <script src="LC_app.js"></script>
+</body>
+</html>

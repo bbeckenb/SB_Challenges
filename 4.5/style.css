@@ -1,0 +1,12 @@
+#game div {
+  border: 1px solid black;
+  width: 15%;
+  height: 200px;
+  margin: 10px;
+  display: inline-block;
+}
+
+.hidden_card {
+  background-color: seashell;
+  transition: all .3s;
+}

@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Listener Examples and Notes</title>
+</head>
+<body>
+    <h1>Events</h1>
+    <h2>Online onclick</h2>
+    <button id="purple" data-button="purple button" mouseover="makeBody('purple');">MouseOver me purple</button>
+    <button onclick="alert('hi')">Click me!</button> <!--inline, gets very messy and difficult to keep track of-->
+    <button onclick="makeBody('red')">Click Me Red!</button>
+    <h2>JS onclick</h2>
+    <button id="teal">Change to Teal</button> 
+    <h2>addEventListener()</h2>
+    <button id='violet'>Change to Violet</button>
+    <h2>What is inside an Event Object</h2>
+    <p id="EventObject">Click Me!<b>IAm Bold!</b></p>
+    <ul id="b_list">
+        <li data-id='44' data-year='1924'> Boondoggler</option>
+        <li data-id='43' data-year='1865'> Boondoggler2</option>
+        <li data-id='87' data-year='7834'> Boondoggler3</option>
+    </ul>
+    <script src="4_3app.js"></script>
+</body>
+</html>

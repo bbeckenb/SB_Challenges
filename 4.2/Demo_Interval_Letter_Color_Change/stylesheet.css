@@ -1,0 +1,15 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+h1 {
+    font-size: 100px;
+    font-family: Montserrat;
+}
+
+.letter {
+    transition: color 1000ms;
+}
