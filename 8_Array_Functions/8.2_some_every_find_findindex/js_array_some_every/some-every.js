@@ -8,7 +8,7 @@ Examples:
 
 function hasOddNumber(arr) {
     return arr.some(function(e) {
-        return e%2 != 0;
+        return e%2 !== 0;
     });
 }
 
@@ -38,7 +38,7 @@ Examples:
 
 function hasOnlyOddNumbers(arr) {
     return arr.every(function(e) {
-        return e%2 != 0;
+        return e%2 !== 0;
     });
 }
 

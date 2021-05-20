@@ -41,7 +41,5 @@ function removeUser(usersArray, username) {
   }
   let removed_user = usersArray[index_user];
   usersArray.splice(index_user, 1);
-  console.log(usersArray);
-  console.log(removed_user);
   return removed_user;
 }
