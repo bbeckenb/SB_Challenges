@@ -89,9 +89,8 @@ const filterOutOdds = (...nums) => nums.filter(num => num % 2 ===0);
 
 const findMin = (...nums) => nums.reduce((num, next_num) => Math.min(num, next_num));
 
-function mergeObjects(obj1, obj2) {
-    return {...obj1, ...obj2};
-};
+const mergeObjects = (obj1, obj2) => ({...obj1, ...obj2});
+
 
 function doubleAndReturnArgs(arr, ...nums) {
     let arr_nums = nums.map(num => num*2);
@@ -101,13 +100,13 @@ function doubleAndReturnArgs(arr, ...nums) {
 /** remove a random element in the items array
 and return a new array without that item. */
 
-function removeRandom(items) {
+const removeRandom = (items) => {
     let arr_in = [...items];
     let random = Math.floor(Math.random() * items.length);
     console.log(random);
     arr_in.splice(random, 1);
     return arr_in;
-}
+};
 
 /** Return a new array with every item in array1 and array2. */
 
