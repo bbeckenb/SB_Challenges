@@ -163,7 +163,7 @@ const myMotorcycle = new Motorcycle('Dream', 'DNE', 29);
 
 //P4
 class Garage {
-    constructor(capacity, vehicles) {
+    constructor(capacity) {
         this.vehicles = [];
         this.capacity = capacity;
     }
