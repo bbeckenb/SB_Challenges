@@ -14,3 +14,5 @@
 //ON VIDEO 5 - https://getbootstrap.com/
 
 //ON VIDEO 8 - Images and Cards
+
+//ON VIDEO 11 - Auto Columns
