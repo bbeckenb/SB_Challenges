@@ -1,5 +1,6 @@
 "use strict";
 
+//How do you plan out classes, attributes, methods
 const BASE_URL = "https://hack-or-snooze-v3.herokuapp.com";
 
 /******************************************************************************
@@ -89,9 +90,8 @@ class StoryList {
         createdAt: response.data.story.createdAt 
       }
     );
-    storyList = await StoryList.getStories(); // updates list using global var
+    this.stories.push(addedStory); // updates list using global var
     user.ownStories.push(response.data.story);
-    return addedStory;
   }
 
   async deleteStory(user, storyId) {
@@ -101,7 +101,7 @@ class StoryList {
       data: { token: user.loginToken}
     });
     
-    storyList = await StoryList.getStories(); // updates list using global var
+    this.stories.filter(story => story.storyId !== storyId); // updates list using global var
     user.ownStories.pop(response.data.story);
   }
 }

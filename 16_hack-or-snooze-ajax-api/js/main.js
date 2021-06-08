@@ -1,5 +1,6 @@
 "use strict";
-
+//Switching back and forth between using jQuery and not
+//What is your strategy when inheriting other people's code 
 // So we don't have to keep re-finding things on page, find DOM elements once:
 
 const $body = $("body");
