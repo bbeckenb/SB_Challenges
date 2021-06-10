@@ -13,30 +13,6 @@ async function getAndShowStoriesOnStart() {
   putStoriesOnPage();
 }
 
-function checkIfStoryFavorited(story) {  //compares currentUser favorite list to story being checked
-  const uniqueId = story.storyId;
-  if(currentUser) {
-    for (let item of currentUser.favorites) {
-      if (uniqueId === item.storyId) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
-
-function checkIfStoryAdded(story) { //compares currentUser added story list to story being checked
-  const uniqueId = story.storyId;
-  if(currentUser) {
-    for (let item of currentUser.ownStories) {
-      if (uniqueId === item.storyId) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
-
 /**
  * A render method to render HTML for an individual Story instance
  * - story: an instance of Story
@@ -51,7 +27,7 @@ function generateStoryMarkup(story) {
   let $storyOut
   if(currentUser) { //adds 'favorite' button and data tags based on currentUser data
     $storyOut = $(`
-    <li id="${story.storyId}" data-favorite="${checkIfStoryFavorited(story)}" data-added-story="${checkIfStoryAdded(story)}">
+    <li id="${story.storyId}">
       <input type="radio">
       <a href="${story.url}" target="a_blank" class="story-link">
         ${story.title}
@@ -64,7 +40,7 @@ function generateStoryMarkup(story) {
   }
   else {
     $storyOut = $(`
-    <li id="${story.storyId}" data-favorite="${checkIfStoryFavorited(story)}">
+    <li id="${story.storyId}">
       <a href="${story.url}" target="a_blank" class="story-link">
         ${story.title}
       </a>
@@ -88,7 +64,7 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
-    if($story.attr('data-favorite') === 'true'){  //checks data-favorite tag and dynamically checks 'favorite' button accordingly
+    if(story in currentUser.favorites){  
       $story.find('input').prop('checked', 'true')
       console.debug($story);
     }
@@ -106,14 +82,15 @@ function putFavoritesOnPage() {
 
   let storyCount = 0;
   // loop through all of our stories and generate HTML for them
-  for (let story of storyList.stories) { //filters list by data-favorite tag
+  for (let story of currentUser.favorites) { //filters list by data-favorite tag
     const $story = generateStoryMarkup(story);
-    if($story.attr('data-favorite') === 'true'){
-      $story.find('input').prop('checked', 'true')
-      console.debug($story);
-      $allStoriesList.append($story);
-      storyCount++;
-    }
+    
+    // if($story.attr('data-favorite') === 'true'){
+    //   $story.find('input').prop('checked', 'true')
+    //   console.debug($story);
+    //   $allStoriesList.append($story);
+    //   storyCount++;
+    // }
   }
   if(storyCount === 0) {
     $allStoriesList.append("You have 0 favorites!");

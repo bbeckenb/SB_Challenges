@@ -115,23 +115,44 @@ function updateUIOnUserLogin() {
   updateNavOnLogin();
 }
 
+function checkIfStoryFavorited(uniqueId) {  //compares currentUser favorite list to story being checked
+  if(currentUser) {
+    for (let item of currentUser.favorites) {
+      if (uniqueId === item.storyId) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
+function checkIfStoryAdded(story) { //compares currentUser added story list to story being checked
+  const uniqueId = story.storyId;
+  if(currentUser) {
+    for (let item of currentUser.ownStories) {
+      if (uniqueId === item.storyId) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
 async function userToggleFavorite(evt) {
   console.log(evt.target.parentElement);
   if(currentUser) {
     const storySelected = evt.target.parentElement;
-    const favoriteStatus = storySelected.getAttribute('data-favorite');
     const storyId = storySelected.getAttribute('id');
     const lastCall = $allStoriesList.attr('data-last-call');
     console.log(lastCall);
-    if (favoriteStatus === 'false') {
+    if (checkIfStoryFavorited(storyId)) {
       await currentUser.favoriteStory(storyId);
-      storySelected.setAttribute('data-favorite', 'true');
-      storySelected.setAttribute('checked', 'true');
+      storySelected.find('input').prop('checked', 'true')
+    //   console.debug($story);
     }
     else { //if it is being unfavorited
       await currentUser.unfavoriteStory(storyId);
-      storySelected.setAttribute('data-favorite', 'false');
-      storySelected.setAttribute('checked', 'false');
+      storySelected.querySelector('input').value('checked', 'false')
     }
     if(lastCall === 'fave') { //enables toggling in all list filters
       putFavoritesOnPage();

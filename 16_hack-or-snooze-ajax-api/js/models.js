@@ -91,7 +91,7 @@ class StoryList {
       }
     );
     this.stories.push(addedStory); // updates list using global var
-    user.ownStories.push(response.data.story);
+    currentUser.ownStories.push(response.data.story);
   }
 
   async deleteStory(user, storyId) {
@@ -102,7 +102,7 @@ class StoryList {
     });
     
     this.stories.filter(story => story.storyId !== storyId); // updates list using global var
-    user.ownStories.pop(response.data.story);
+    currentUser.ownStories.pop(response.data.story);
   }
 }
 
@@ -200,9 +200,8 @@ class User {
       data: { token: this.loginToken }
     });
     
-    currentUser.favorites = response.data.user.favorites;
+    this.favorites = response.data.user.favorites;
     console.debug(response);
-    return 'hi'; //placeholder
   }
 
   async unfavoriteStory(storyId) {
@@ -212,9 +211,9 @@ class User {
       data: {token: this.loginToken}
     });
     
-    currentUser.favorites = response.data.user.favorites;
+    this.favorites = response.data.user.favorites;
     console.debug(response);
-    return 'hi'; //placeholder
+    
   }
 
   /** When we already have credentials (token & username) for a user,
