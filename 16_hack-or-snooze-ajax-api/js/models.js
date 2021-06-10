@@ -74,11 +74,11 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory(user, newStory) { //this was a nightmare
+  async addStory(newStory) { //this was a nightmare
     const response = await axios({
       url: `${BASE_URL}/stories`,
       method: 'POST',
-      data: { token: user.loginToken, story: {author: newStory.author, title: newStory.title, url: newStory.url} }
+      data: { token: currentUser.loginToken, story: {author: newStory.author, title: newStory.title, url: newStory.url} }
     })
     
     let addedStory = new Story(
@@ -91,14 +91,14 @@ class StoryList {
       }
     );
     this.stories.push(addedStory); // updates list using global var
-    currentUser.ownStories.push(response.data.story);
+    currentUser.ownStories.push(addedStory);
   }
 
-  async deleteStory(user, storyId) {
+  async deleteStory(storyId) {
     const response = await axios({
       url: `${BASE_URL}/stories/${storyId}`,
       method: 'DELETE',
-      data: { token: user.loginToken}
+      data: { token: currentUser.loginToken}
     });
     
     this.stories.filter(story => story.storyId !== storyId); // updates list using global var
@@ -200,7 +200,7 @@ class User {
       data: { token: this.loginToken }
     });
     
-    this.favorites = response.data.user.favorites;
+    this.favorites = response.data.user.favorites.map(s => new Story(s))
     console.debug(response);
   }
 
@@ -211,7 +211,7 @@ class User {
       data: {token: this.loginToken}
     });
     
-    this.favorites = response.data.user.favorites;
+    this.favorites = response.data.user.favorites.map(s => new Story(s))
     console.debug(response);
     
   }

@@ -115,44 +115,22 @@ function updateUIOnUserLogin() {
   updateNavOnLogin();
 }
 
-function checkIfStoryFavorited(uniqueId) {  //compares currentUser favorite list to story being checked
-  if(currentUser) {
-    for (let item of currentUser.favorites) {
-      if (uniqueId === item.storyId) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
-
-function checkIfStoryAdded(story) { //compares currentUser added story list to story being checked
-  const uniqueId = story.storyId;
-  if(currentUser) {
-    for (let item of currentUser.ownStories) {
-      if (uniqueId === item.storyId) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
-
 async function userToggleFavorite(evt) {
   console.log(evt.target.parentElement);
   if(currentUser) {
     const storySelected = evt.target.parentElement;
     const storyId = storySelected.getAttribute('id');
     const lastCall = $allStoriesList.attr('data-last-call');
-    console.log(lastCall);
-    if (checkIfStoryFavorited(storyId)) {
+    const toggleRadio = evt.target
+    console.log(lastCall, toggleRadio);
+    if (!checkIfStoryFavorited(storyId)) {
       await currentUser.favoriteStory(storyId);
-      storySelected.find('input').prop('checked', 'true')
+      toggleRadio.checked = true
     //   console.debug($story);
     }
     else { //if it is being unfavorited
       await currentUser.unfavoriteStory(storyId);
-      storySelected.querySelector('input').value('checked', 'false')
+      toggleRadio.checked = false
     }
     if(lastCall === 'fave') { //enables toggling in all list filters
       putFavoritesOnPage();
@@ -170,10 +148,11 @@ $('.stories-container').on('click', 'input:radio', userToggleFavorite);
  
 async function userDeleteStory(evt) {
   console.log(evt.target.parentElement);
+  console.debug('userDeleteStory')
   if(currentUser) {
     const storySelected = evt.target.parentElement;
     const storyId = storySelected.getAttribute('id');
-      await storyList.deleteStory(currentUser, storyId);
+      await storyList.deleteStory(storyId);
       
       putAddedStoriesOnPage(); 
   }

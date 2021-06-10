@@ -20,6 +20,29 @@ async function getAndShowStoriesOnStart() {
  * Returns the markup for the story.
  */
 
+ function checkIfStoryFavorited(uniqueId) {  //compares currentUser favorite list to story being checked
+  if(currentUser) {
+    for (let item of currentUser.favorites) {
+      if (uniqueId === item.storyId) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
+function checkIfStoryAdded(story) { //compares currentUser added story list to story being checked
+  const uniqueId = story.storyId;
+  if(currentUser) {
+    for (let item of currentUser.ownStories) {
+      if (uniqueId === item.storyId) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
 function generateStoryMarkup(story) {
   //console.debug("generateStoryMarkup", story);
 
@@ -63,8 +86,9 @@ function putStoriesOnPage() {
 
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
+    console.log(story)
     const $story = generateStoryMarkup(story);
-    if(story in currentUser.favorites){  
+    if(checkIfStoryFavorited(story.storyId)){  
       $story.find('input').prop('checked', 'true')
       console.debug($story);
     }
@@ -82,17 +106,16 @@ function putFavoritesOnPage() {
 
   let storyCount = 0;
   // loop through all of our stories and generate HTML for them
-  for (let story of currentUser.favorites) { //filters list by data-favorite tag
-    const $story = generateStoryMarkup(story);
-    
-    // if($story.attr('data-favorite') === 'true'){
-    //   $story.find('input').prop('checked', 'true')
-    //   console.debug($story);
-    //   $allStoriesList.append($story);
-    //   storyCount++;
-    // }
+
+  for (let story of currentUser.favorites) {
+    console.log(story)
+    const $story = generateStoryMarkup(story); 
+    $story.find('input').prop('checked', 'true')
+   
+    $allStoriesList.append($story);
   }
-  if(storyCount === 0) {
+
+  if(currentUser.favorites.length === 0) {
     $allStoriesList.append("You have 0 favorites!");
   }
   $allStoriesList.attr('data-last-call', 'fave');
@@ -102,19 +125,22 @@ function putFavoritesOnPage() {
 function putAddedStoriesOnPage() {
   $allStoriesList.empty();
 
-  let storyCount = 0;
-  for (let story of storyList.stories) {
+  $allStoriesList.empty();
+
+  // loop through all of our stories and generate HTML for them
+  for (let story of currentUser.ownStories) {
+    console.log(story)
     const $story = generateStoryMarkup(story);
-    if($story.attr('data-added-story') === 'true') {  //filters list by data-added-story tag
-      if($story.attr('data-favorite') === 'true') {
-        $story.find('input').prop('checked', 'true')
-      }
+    if(checkIfStoryFavorited(story.storyId)){  
+      $story.find('input').prop('checked', 'true')
+      console.debug($story);
+    }
+   
+    $allStoriesList.append($story);
       $story.append(`<button type="submit">delete</button>`) //adds delete button in UI for each story
       $allStoriesList.append($story);
-      storyCount++;
-    }
   }
-  if(storyCount === 0) {
+  if(currentUser.ownStories.length === 0) {
     $allStoriesList.append("You have 0 added stories!");
   }
   $allStoriesList.attr('data-last-call', 'added-stories'); //tracks most recent filter call
@@ -131,7 +157,7 @@ async function storyFormtoAPIandStoryList(evt) {
     url: $('#url-input').val()
   };
     console.debug(storyObj, storyList.stories);
-    await storyList.addStory(currentUser, storyObj); //creates new story, updates API, storyList, currentUser, clears input form
+    await storyList.addStory(storyObj); //creates new story, updates API, storyList, currentUser, clears input form
     $addStoryForm.hide();
     putStoriesOnPage();
     $('#author-name').val(''); 
