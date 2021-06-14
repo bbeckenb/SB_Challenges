@@ -123,7 +123,6 @@ function putFavoritesOnPage() {
 }
 
 function putAddedStoriesOnPage() {
-  $allStoriesList.empty();
 
   $allStoriesList.empty();
 
@@ -147,22 +146,3 @@ function putAddedStoriesOnPage() {
   $allStoriesList.show();
 }
 
-
-async function storyFormtoAPIandStoryList(evt) {  
-  evt.preventDefault();
-  console.debug("storyFormtoAPIandStoryList", evt);
-  const storyObj = {
-    author: $('#author-name').val(), 
-    title: $('#title-input').val(), 
-    url: $('#url-input').val()
-  };
-    console.debug(storyObj, storyList.stories);
-    await storyList.addStory(storyObj); //creates new story, updates API, storyList, currentUser, clears input form
-    $addStoryForm.hide();
-    putStoriesOnPage();
-    $('#author-name').val(''); 
-    $('#title-input').val(''); 
-    $('#url-input').val('');
-}
-
-$('#story-submit').on('click', storyFormtoAPIandStoryList);
