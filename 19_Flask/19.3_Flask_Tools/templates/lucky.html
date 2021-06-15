@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} Form V2 {% endblock %}
+{% block content %}
+<h1>Your lucky number is: {{lucky_num}}</h1> 
+<p>Thanks for browsing! {{msg}}</p>
+<!-- Conditional Expressions -->
+{% if lucky_num == 3%}
+    <h2>That is a super cool number, better than most</h2>
+    <img src="https://media1.tenor.com/images/77bcc8241d456a18488f3ac19ed4691d/tenor.gif?itemid=5416578" alt="">
+{% else %}
+    <h2>Not a great number, I don't like that number</h2>
+    <img src="https://media3.giphy.com/media/EcBihYnTLQdvSuGWxD/giphy.gif" alt="">
+{%endif%}
+{% endblock %}
+
