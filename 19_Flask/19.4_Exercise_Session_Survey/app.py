@@ -33,8 +33,7 @@ def post_question(index):
     elif index == len(responses) + 1:   
         print('elif',responses, index, len(responses))
         if request.args != []:
-            responses.append(request.args)
-            print(request.args)
+            responses.append(request.args['answer'])
             session['responses'] = responses
             print(responses)
 
@@ -54,7 +53,6 @@ def post_question(index):
             flash('Please stop trying to change the questions', 'q-manip')
             return render_template('question.html', prompt=prompt, choices=choices, index=len(responses))
         
-
     else:
         print('else', responses, index, len(responses))
         index = len(responses)
