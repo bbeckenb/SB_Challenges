@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %} Welcome Start Game {% endblock %}
+{% block content %}
+<h1>Welcome to Boggle!</h1>
+<h2>Press start below to play!</h2>
+<form action="/begin" method="POST">
+<button>start</button>
+</form>
+
+{% endblock %}

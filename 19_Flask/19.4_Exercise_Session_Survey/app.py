@@ -23,11 +23,13 @@ def post_question(index):
     responses = session['responses']
     if len(responses) == len(satisfaction_survey.questions):
         return redirect('/thanks')
+    
+    question = satisfaction_survey.questions[index]
+    prompt = question.question
+    choices = question.choices
+
     if index == 0 and len(responses) == 0:
         print('if',responses, index, len(responses))
-        question = satisfaction_survey.questions[index]
-        prompt = question.question
-        choices = question.choices
         return render_template('question.html', prompt=prompt, choices=choices, index=0)
 
     elif index == len(responses) + 1:   
@@ -37,19 +39,13 @@ def post_question(index):
             session['responses'] = responses
             print(responses)
 
-
         if len(responses) != len(satisfaction_survey.questions):
-            question = satisfaction_survey.questions[index]
-            prompt = question.question
-            choices = question.choices
+            
             return render_template('question.html', prompt=prompt, choices=choices, index=len(responses))
         else:
             return redirect('/thanks')
 
     elif index != 0 and index == len(responses):
-            question = satisfaction_survey.questions[index]
-            prompt = question.question
-            choices = question.choices
             flash('Please stop trying to change the questions', 'q-manip')
             return render_template('question.html', prompt=prompt, choices=choices, index=len(responses))
         

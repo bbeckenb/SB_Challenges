@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Boggle Make a Guess {% endblock %}
+{% block content %}
+
+<div>
+    <h1>Boggle!</h1>
+    <h3 id="times-played">Times Played: {{times_played}}</h3>
+    <h3 id="hi-score">Highest Score: {{highest_score}}</h3>    
+    <h4 id="timer">Time Left: 60 seconds</h4>
+</div>
+
+<table>
+    {% for row in board %}
+    <tr>
+        {% for element in row %}
+            <td>{{element}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<form action="" id="guess-form">
+    <div>
+        <label for="guess">
+            <input type="text" placeholder="guess" name="guess" id="guess">
+        </label>
+    </div>
+    <button id="submit-guess">submit guess</button>
+</form>
+<a href="/"><button>restart</button></a>
+
+<div>
+    <h4 id="msg-out">Have fun!</h4>
+    <h4 id="score">Score: 0</h4>
+</div>
+
+
+<script
+src="https://code.jquery.com/jquery-3.6.0.min.js"
+integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+crossorigin="anonymous"></script>
+<script src="https://unpkg.com/axios/dist/axios.js"></script>
+<script src="static/validWordChecker.js"></script>
+
+{% endblock %}
