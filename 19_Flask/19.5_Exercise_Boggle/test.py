@@ -55,13 +55,18 @@ class FlaskTests(TestCase):
     def test_guess_handler(self):
         with app.test_client() as client:
             with client.session_transaction() as change_session: 
-                change_session['guesses'] = ['cat']
-                change_session['score'] = 3
+                change_session['guesses'] = ['tree']
+                change_session['score'] = 4
+                change_session['session_game'] = [["C", "A", "T", "T", "T"], 
+                                                ["C", "A", "T", "T", "T"], 
+                                                ["C", "A", "T", "T", "T"], 
+                                                ["C", "A", "T", "T", "T"], 
+                                                ["C", "A", "T", "T", "T"]]
         
-            res = client.get('/guess/tree') 
+            res = client.get('/guess/cat') 
 
             self.assertEqual(res.status_code, 200)
-            self.assertEqual(session['guesses'], ['cat', 'tree'])
+            self.assertEqual(res.json['result'], 'ok')
             self.assertEqual(session['score'], 7)
             
     def test_update_data(self):
