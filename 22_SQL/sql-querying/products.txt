@@ -1,0 +1,89 @@
+brycebeckenbach=# \c products_db
+You are now connected to database "products_db" as user "brycebeckenbach".
+products_db=# \x auto;
+Expanded display is used automatically.
+products_db=# \dt
+              List of relations
+ Schema |   Name   | Type  |      Owner      
+--------+----------+-------+-----------------
+ public | products | table | brycebeckenbach
+(1 row)
+
+products_db=# SELECT * FROM products
+products_db-# ;
+ id | name | price | can_be_returned 
+----+------+-------+-----------------
+(0 rows)
+
+products_db=# INSERT INTO products(name, price, can
+
+products_db=# _be_returned)
+products_db-# VALUES('chair',44.00,false), ('stool', 25.99, true), ('table',124.00,false);
+ERROR:  syntax error at or near "_be_returned"
+LINE 1: _be_returned)
+        ^
+products_db=# INSERT INTO products(name, price, can_be_returned) VALUES('chair',44.00,false), ('stool', 25.99, true), ('table',124.00,false);
+INSERT 0 3
+products_db=# SELECT * FROM products                                                              ;
+ id | name  | price | can_be_returned 
+----+-------+-------+-----------------
+  1 | chair |    44 | f
+  2 | stool | 25.99 | t
+  3 | table |   124 | f
+(3 rows)
+
+products_db=# SELECT name FROM products
+products_db-# ;
+ name  
+-------
+ chair
+ stool
+ table
+(3 rows)
+
+products_db=# SELECT name, price FROM products
+products_db-# ;
+ name  | price 
+-------+-------
+ chair |    44
+ stool | 25.99
+ table |   124
+(3 rows)
+
+products_db=# SELECT * FROM products WHERE can_be_returned = true;
+ id | name  | price | can_be_returned 
+----+-------+-------+-----------------
+  2 | stool | 25.99 | t
+(1 row)
+
+products_db=# SELECT * FROM products WHERE price BETWEEN 22.50 AND 99.99
+products_db-# ;
+ id | name  | price | can_be_returned 
+----+-------+-------+-----------------
+  1 | chair |    44 | f
+  2 | stool | 25.99 | t
+(2 rows)
+
+products_db=# UPDATE products SET price=price-20;
+UPDATE 3
+products_db=# SELECT price FROM products;
+       price       
+-------------------
+                24
+ 5.989999999999998
+               104
+(3 rows)
+
+products_db=# UPDATE products SET price=ROUND(price,2);
+ERROR:  function round(double precision, integer) does not exist
+LINE 1: UPDATE products SET price=ROUND(price,2);
+                                  ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+products_db=# UPDATE products SET ROUND(price,2);
+ERROR:  syntax error at or near "("
+LINE 1: UPDATE products SET ROUND(price,2);
+                                 ^
+products_db=# DELETE FROM products WHERE price < 25;
+DELETE 2
+products_db=# UPDATE products SET can_be_returned=true;
+UPDATE 1

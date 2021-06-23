@@ -9,25 +9,6 @@ body {
 }
 /* You would deploy this with your base html file */
 
-.navbar {
-    background-color: steelblue;
-    overflow: hidden;
-}
-
-.navbar a {
-    float: left;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-}
-
-.navbar a:hover {
-    background-color: #f2f2f2;
-    color: black;
-}
-
 #content {
    color: black;
    font-size: 20px; 

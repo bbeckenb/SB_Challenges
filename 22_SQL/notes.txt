@@ -1,0 +1,141 @@
+DB is a centralized storage place for user data
+-Files are not good/ fast for storing/ searching data at scale
+-Accessing info is called 'Querying'
+-DB have several features
+    -Server written w/ some lang
+    -Server will query and store data in DB
+
+Relational DB
+-Stores data as rows and columns (Tabular) like a spreadsheet
+-Tables reference eachother
+-Stored in structures
+
+RDBMS - Relational DB MGMT System - PostgreSQL, MySQL
+schema - logical representation of a DB including its Tables
+SQL - Structured Query Language - human readable language for querying
+Table - essentially a spreadsheet
+Column - A table attribute
+Row - Table Record w/ values for set for columns
+
+Visualizing Relational DB:
+Table: USERS
+id - username - email
+1 - chikingal - cg@hotmail.com
+2 - gooseguy - gg@aol.com
+
+Table: MOVIES
+id - title - year - genre
+1 - Aladdin - 1993 - history
+2 - Poseidon - 1965 - gamer
+3 - Bean Attacks! - 2001 - Horror
+
+Table: RATINGS (puts USERS & MOVIES info together)
+id - user id - movie id - score
+1  -   1     -   1      -  8
+2  -   1     -   2      -  10
+3  -   1     -   3      -  11!
+1  -   2     -   1      -  7
+2  -   2     -   2      -  6
+3  -   2     -   3      -  10.5
+
+Structuring and Searching need to be strategized
+-Tables referencing other tables
+
+Install PostgreSQL:
+-powerful, popular, follows SQL standard closely
+-psql to open PostgreSQL shell, '\q' or 'ctrl+d' to esc PostgreSQL
+-New DB per app
+
+PSQL CMNDS:
+-psql to open PostgreSQL shell
+-'\q' or 'ctrl+d' to esc PostgreSQL
+-psql database_name to connect to specific DB
+-create DB -> createdb database_name (should be lower snake case)
+-Feed .sql scripts into program psql
+    -init some info in a DB
+    -psql < my_database.sql
+    -Used to seed an empty DB by building tables, filling in rows, or both
+-\l - list all DBs
+-\c db_name - connect to DB
+-\dt - list all tables (in current db)
+-\d table_name - get details about table_name (in current db)
+-dropdb database_name - deletes DB
+-pg_dump -C -c -O my_database_name > backup.sql - back up DB in a sql file 
+-\x auto; - sets rows up to be displayed on smaller screens better
+
+
+SQL CMNDS:
+-Single-quotes, not double around quotes
+-Cmds end in semi-colon ';'
+-SQL keywords are conventially written in all caps, but that is not required
+    ex: SELECT price FROM books
+
+Syntax of SQL
+-Learn Core Querying!
+-Learn insertion, updating, and deletion
+
+SQL DML
+-DML = Data Manipulation Language
+-CRUD = Create, Read, Update, Delete
+    -Verb  -  SQL cmd    
+    -Create  -  INSERT INTO
+    -Read  -  SELECT ... FROM
+    -Update  -  UPDATE ... SET
+    -Delete  -  DELETE FROM
+-FROM - determines which table(s) to get data from
+    ex: (in db) SELECT * FROM books;
+    ex_1: SELECT title, author, (names of column data) FROM books;
+-WHERE - filter function
+    ex: SELECT * FROM books WHERE price > 30;
+    -logical operators (>, >=, !=, =)
+    -boolean operators (AND, OR)
+    ex_1: SELECT title, page_count FROM books WHERE page_count >= 700 AND page_count <= 800;
+    -Other functions (IN, BETWEEN (ex SELECT id FROM books WHERE id BETWEEN 5 AND 10))
+    SELECT title, author FROM books WHERE author IN ('Ari Berman', 'Trevor Noah');
+-COUNT, provides single vector data point
+    ex: SELECT COUNT(*) FROM books;
+-MIN - ex: SELECT MIN(price) FROM books;
+-MAX - ex: SELECT MAX(price) FROM books;
+-AVG - ex: SELECT AVG(page_count) FROM books;
+-SUM - ex: SELECT SUM(page_count) FROM books;
+
+ex of combo of things above: SELECT AVG(page_count) FROM books WHERE author = 'J. K. Rowling';
+
+-GROUP BY
+ex: SELECT author, COUNT(*), AVG(page_count) FROM books GROUP BY author;
+
+-HAVING - filters groups from GROUP BY (like WHERE but for grouped data)
+ex: SELECT publisher, count(*) FROM books GROUP BY publisher HAVING COUNT(*) >= 2;
+ex_1: SELECT author, AVG(page_count) FROM books GROUP BY author HAVING AVG(page_count) >= 500;
+
+-ORDER BY - sorts (default=ascending) by column data (alphabetical, numerical)
+ex: SELECT id, author FROM books ORDER BY author;
+ex_1: SELECT id, author, price FROM books ORDER BY price desc;
+
+-LIMIT - how many rows we want back
+ex: SELECT id, author, title FROM books ORDER BY author, title desc LIMIT 10;
+
+-OFFSET - skip n # of rows (used with LIMIT to paginate results)
+ex: SELECT title, author, price FROM books ORDER BY price OFFSET 1;
+
+-LIKE - pattern matching
+ex: (all titles that start w/ 'T') SELECT id, title FROM books WHERE title LIKE 'T%';
+ex: (all titles that contain 'T') SELECT id, title FROM books WHERE title LIKE '%T%';
+
+-ILIKE (not in SQL standard), performs same as LIKE, but case insensitive
+
+-Alias, better column descriptions for selected data
+ex: SELECT author, AVG(page_count) AS avg_pages, AVG(price) AS avg_price FROM books GROUP BY author HAVING AVG(page_count) >=200;
+ex_1: SELECT author, SUM(page_count) as total_pages FROM books GROUP BY author ORDER BY total_pages desc;
+
+INSERT INTO - add rows
+ex: INSERT INTO books (title, author, price) VALUES ('Dogs Book', 'Colt Steele', '19.99');
+ex_1: INSERT INTO books (title, author, price) VALUES 
+('Chicken Book', 'Colt Steele', '19.99'), ('Animals are Cool', 'Colt Steele', '9.99'), ('Teeter Peeter', 'Teeter-P', '1.99');
+
+UPDATE - update data values
+ex: UPDATE books SET price = 0;
+ex_1 UPDATE books SET author = 'Colt Steele' WHERE author = 'J. K. Rowling';
+
+DELETE FROM - Deletes rows
+ex: DELETE FROM books WHERE page_count > 500;
