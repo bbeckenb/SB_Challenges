@@ -1,0 +1,130 @@
+CREATE TABLE studios
+(
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  founded_in DATE
+);
+
+CREATE TABLE movies
+(
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  release_year INTEGER,
+  runtime INTEGER,
+  rating TEXT,
+  studio_id INTEGER REFERENCES studios
+);
+***************
+NOTE: 'REFERENCES' studios, creates link
+
+When trying to delete a studio, we cannot delete it outright while movies still reference it.
+We have 2 options:
+1. Clear out the studio_id columns of movies that reference it
+2. Delete the movies associated with that studio first
+
+JOIN Operation - creates a temporary table in memory, combining info from different tables
+-Data from tables is matched according to a join condition
+-Most commonly, the join condition involves comparing a foreign key from one table and a primary key in another table
+ex: SELECT title, name FROM movies JOIN studios ON movies.studio_id = studios.id;
+
+JOIN and INNER JOIN are the same in SQL
+-Only the rows that match the condition in both tables
+Outer
+-Left - All the rows from the first table (left) combined with the matching rows from the second table (right)
+-Right - Vice-versa of above
+Full - All rows from both tables
+
+INSERT INTO movies (title,release_year, runtime, rating)
+VALUES
+('My 1st Indie Movie', 2015, 90, 'PG-13'),
+('My 2nd Indie Movie', 2020, 110, 'R');
+
+INSERT INTO studios (name, founded_in) VALUES ('Chickenz Pictures', '2020-12-12');
+
+ex: LEFT JOIN
+
+movies_example=# SELECT title, name AS studio_name FROM movies LEFT JOIN studios ON movies.studio_id = studios.id;
+            title             |             studio_name             
+------------------------------+-------------------------------------
+ Star Wars: The Force Awakens | Walt Disney Studios Motion Pictures
+ Avatar                       | 20th Century Fox
+ Black Panther                | Walt Disney Studios Motion Pictures
+ Jurassic World               | Universal Pictures
+ Marvel’s The Avengers        | Walt Disney Studios Motion Pictures
+ Amadeus                      | Orion Pictures
+ My 1st Indie Movie           | 
+ My 2nd Indie Movie           | 
+(8 rows)
+
+ex: RIGHT JOIN
+
+movies_example=# SELECT title, name AS studio_name FROM movies RIGHT JOIN studios ON movies.studio_id = studios.id;
+            title             |             studio_name             
+------------------------------+-------------------------------------
+ Star Wars: The Force Awakens | Walt Disney Studios Motion Pictures
+ Avatar                       | 20th Century Fox
+ Black Panther                | Walt Disney Studios Motion Pictures
+ Jurassic World               | Universal Pictures
+ Marvel’s The Avengers        | Walt Disney Studios Motion Pictures
+ Amadeus                      | Orion Pictures
+                              | Cat Catss
+                              | Chickenz Pictures
+(8 rows)
+
+ex: FULL JOIN
+movies_example=# SELECT title, name AS studio_name FROM movies FULL JOIN studios ON movies.studio_id = studios.id;
+            title             |             studio_name             
+------------------------------+-------------------------------------
+ Star Wars: The Force Awakens | Walt Disney Studios Motion Pictures
+ Avatar                       | 20th Century Fox
+ Black Panther                | Walt Disney Studios Motion Pictures
+ Jurassic World               | Universal Pictures
+ Marvel’s The Avengers        | Walt Disney Studios Motion Pictures
+ Amadeus                      | Orion Pictures
+ My 1st Indie Movie           | 
+ My 2nd Indie Movie           | 
+                              | Cat Catss
+                              | Chickenz Pictures
+(10 rows)
+
+Many-to-Many
+-Columns referencing ids from other tables congregated in the same table
+
+ex: addind to a many-to-many table:
+movies_example=# INSERT INTO actors (first_name, last_name, birth_date)                                                             VALUES                                                                                                                              ('Chris', 'Pratt', '1986-04-04'), ('Billy-Bob', 'Thornton', '1951-08-08');
+INSERT 0 2
+movies_example=# Select * from actors                                                                                               ;                                                                                                                                    id | first_name | last_name | birth_date 
+----+------------+-----------+------------
+  1 | Scarlett   | Johansson | 1984-11-22
+  2 | Samuel L   | Jackson   | 1948-12-21
+  3 | Kristen    | Wiig      | 1973-08-22
+  4 | Chris      | Pratt     | 1986-04-04
+  5 | Billy-Bob  | Thornton  | 1951-08-08
+(5 rows)
+
+movies_example=# INSERT INTO roles (actor_id, movie_id)
+movies_example-# VALUES
+movies_example-# (4,4), (4,5), (5,1),(5,2),(5,3),(5,4);
+INSERT 0 6
+movies_example=# SELECT first_name, last_name, COUNT(*) FROM roles JOIN actors ON roles.actor_id = actors.id GROUP BY actors.id;
+ first_name | last_name | count 
+------------+-----------+-------
+ Chris      | Pratt     |     2
+ Samuel L   | Jackson   |     2
+ Billy-Bob  | Thornton  |     4
+ Scarlett   | Johansson |     1
+(4 rows)
+
+movies_example=# SELECT * FROM roles;
+ id | movie_id | actor_id 
+----+----------+----------
+  1 |        1 |        1
+  2 |        1 |        2
+  3 |        3 |        2
+  4 |        4 |        4
+  5 |        5 |        4
+  6 |        1 |        5
+  7 |        2 |        5
+  8 |        3 |        5
+  9 |        4 |        5
+(9 rows)
