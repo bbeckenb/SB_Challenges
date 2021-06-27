@@ -1,0 +1,52 @@
+https://github.com/florinpop17/app-ideas/blob/master/Projects/1-Beginner/Calculator-App.md
+
+
+Display current number or result of last operation
+    '+', '-', '/', and '=', a 'C' button (for clear), and an 'AC'
+Show Menu of arithmetic operations
+
+ click the 'C' button to clear the last number or the last operation.
+ click the 'AC' button to clear all internal work areas and to set the display to 0.
+ 'ERR' displayed if any operation would exceed the 8 digit maximum
+
+ Output read-me of menu-options at start and after each number output
+ 
+ 
+Calculator tasks
+ ##
+ Store at least last 2(?) numbers
+  * Initial Display operation menu
+ -> Accept valid input
+ Running Display menu
+ Display current State
+ 'C' button to clear the last number or the last operation
+ 'AC' button to clear all internal work areas and to set the display to 0
+ 'ERR' displayed if any operation would exceed the 8 digit maximum
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ (2)
+ Enter Operation and operand -
+ '+', '-', '/', and '=', 'C' (clear last), and an 'AC' (clear all)
+ 'm' for menu
+ Current State: 0  $:
+
+ 'm' for menu
+ Current State: 0  $:
+
+ Enter Operation and operand -
+ '+', '-', '/', and '=', 'C' (clear last), and an 'AC' (clear all)
+ 'm' for menu
+ Current State: 0  $:

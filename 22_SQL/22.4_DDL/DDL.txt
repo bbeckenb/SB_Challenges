@@ -1,0 +1,113 @@
+DML - modifying data
+DL - defining data
+
+Basic Schema design
+CREATE DATABASE new_db;
+DROP DATABASE new_db;
+
+Drop databases a lot when you are seeding a database
+-wipe slate clean, start over
+-Don't do this when in production
+
+Creating Tables:
+(file approach)
+CREATE TABLE table_name (
+    id SERIAL PRIMARY KEY,
+    note: name_of_col TYPE
+    title TEXT,
+    author TEXT,
+    price FLOAT,
+    number INTEGER
+);
+
+Data-types:
+-bool
+-dates
+-int
+-float
+-text
+-varchar (string limited amount of chars)
+-serial (used usually for primary key 'id')
+
+Constraints:
+-basic form of validation: the database can prevent basic types of unintended behavior
+-primary key (every table must have a unique identifier)
+-unique (prevent duplicates in the column)
+-Not null (prevent null in the column)
+-check (do a logical condition before inserting/ updating)
+-Foreign Key (column values must reference values in another table)
+
+ex:
+CREATE TABLE table_name (
+    id SERIAL PRIMARY KEY,
+    phone_num TEXT UNIQUE,
+    password TEXT NOT NULL,
+    account_balance, FLOAT CHECK (account_balance > 0)
+);
+
+If something does not have the NOT NULL constraint and value is not
+assigned, it will have a value of NULL
+
+PRIMARY KEY: 
+-is the relational column for other tables to ref eachother
+-is similar to UNIQUE NOT NULL
+
+FOREIGN KEY:
+-References other table data:
+CREATE TABLE subreddits (
+    id SERIAL,
+    user_id INTEGER REFERENCES users(id), <--'(id)' will ref id of 'users' table below, it will ref 'id' by default, if we want it to reference another column, we put that column name in () like 'users(username)'
+    name VARCHAR(15) NOT NULL,
+    description TEXT,
+    subscribers INTEGER CHECK (subscribers > 0) DEFAULT 1,
+    is_private BOOLEAN DEFAULT false
+);
+
+CREATE TABLE users (
+    id SERIAL,
+    username VARCHAR(15) UNIQUE NOT NULL,
+    password VARCHAR(20) NOT NULL
+);
+
+You need to handle how to sever FOREIGN KEY ties
+you have a few options:
+-ON DELETE SET NULL next to your FOREIGN KEY References
+ex:
+    CREATE TABLE subreddits (
+    id SERIAL,
+    user_id INTEGER REFERENCES users(id) ON DELETE SET NULL, <---
+    name VARCHAR(15) NOT NULL,
+    description TEXT,
+    subscribers INTEGER CHECK (subscribers > 0) DEFAULT 1,
+    is_private BOOLEAN DEFAULT false
+);
+-ON DELETE CASCADE:
+    - if an id from a table being referenced is deleted, the rows in tables refrencing them with cascade behavior also get deleted
+
+MANY-TO-MANY
+
+ALTER TABLE:
+-Add, remove, rename columns
+ex:
+ALTER TABLE books ADD COLUMN in_paperback BOOLEAN;
+ALTER TABLE books DROP, COLUMN in_paperback;
+ALTER TABLE books RENAME COLUMN page_count TO num_pages;
+
+Modeling our DATABASE:
+-Crows Feet notation, standard way to represent schemas
+-Gliffy, Vertabelo, etc. resources to draw out DB relationships
+
+Best Practices:
+-Normalization - DB design technique which organizes tables in a manner that reduces redundancy and dependency of data
+-Divides larger tables to smaller tables and links them using relationships
+
+Indexing:
+-speed up row retrieval
+-Index efficiency:
+    -very fast at looking things up, O(lg(N)) instead of O(N)
+    -reduce iterations/ memory impact
+    -only add index to a column that you will be looking up rows based off of (like a username)
+
+ex:
+CREATE INDEX subreddit_name_index ON subreddits (name);
+\d subreddits #will show indexes (and references)
