@@ -16,7 +16,7 @@ Calculator tasks
  ##
  Store at least last 2(?) numbers
   * Initial Display operation menu
- -> Accept valid input
+  * Accept valid input
  Running Display menu
  Display current State
  'C' button to clear the last number or the last operation
@@ -41,12 +41,12 @@ Calculator tasks
  Enter Operation and operand -
  '+', '-', '/', and '=', 'C' (clear last), and an 'AC' (clear all)
  'm' for menu
- Current State: 0  $:
+ Current State: 0  Enter:
 
  'm' for menu
- Current State: 0  $:
+ Current State: 0  Enter:
 
  Enter Operation and operand -
  '+', '-', '/', and '=', 'C' (clear last), and an 'AC' (clear all)
  'm' for menu
- Current State: 0  $:
+ Current State: 0  Enter:
