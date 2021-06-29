@@ -111,13 +111,124 @@ function squareAll(arr) {
 // Simplifies to O(n^3)
 
 // O(n + n + n + n)
+// Simplifies to O(4n) => O(n)
 
 // O(1000 * log(n) + n)
+// Simplifies to O(1000n) => O(n)
 
 // O(1000 * n * log(n) + n)
+// Simplifies to O(n log(n))
 
 // O(2^n + n^2)
+// Simplifies to O(2^n)
 
 // O(5 + 3 + 1)
+// Simplifies to O(1)
 
 // O(n + n^(1/2) + n^2 + n * log(n)^10)
+// Simplifies to O(n^2)
+
+
+function logUpTo(n) {
+    for (let i = 1; i <= n; i++) {
+      console.log(i);
+    }
+  }
+  
+  logUpTo(10)
+  logUpTo(100)
+  logUpTo(1000)
+// O(n)
+
+  // Time Complexity:
+  
+  function logAtLeast10(n) {
+    for (let i = 1; i <= Math.max(n, 10); i++) {
+      console.log(i);
+    }
+  }
+  // O(n)
+
+  // Time Complexity:
+  
+  function logAtMost10(n) {
+    for (let i = 1; i <= Math.min(n, 10); i++) {
+      console.log(i);
+    }
+  }
+//   O(1)
+  // Time Complexity:
+  
+  function onlyElementsAtEvenIndex(array) {
+    let newArray = [];
+    for (let i = 0; i < array.length; i++) {
+      if (i % 2 === 0) {
+        newArray.push(array[i]);
+      }
+    }
+    return newArray;
+  }
+//   O(n)
+  // Time Complexity:
+  
+  function subtotals(array) {
+    let subtotalArray = [];
+    for (let i = 0; i < array.length; i++) {
+      let subtotal = 0;
+      for (let j = 0; j <= i; j++) {
+        subtotal += array[j];
+      }
+      subtotalArray.push(subtotal);
+    }
+    return subtotalArray;
+  }
+//  O(n^2)
+  // Time Complexity:
+  
+  function vowelCount(str) {
+    let vowelCount = {};
+    const vowels = "aeiouAEIOU";
+  
+    for (let char of str) {
+      if(vowels.includes(char)) {
+        if(char in vowelCount) {
+          vowelCount[char] += 1;
+        } else {
+          vowelCount[char] = 1;
+        }
+      }
+    }
+  
+    return vowelCount;
+  }
+//   O(log(n)) because of dictionary mapping efficiency WRONG O(n)
+// Answer the following questions
+
+// True or false: n^2 + n is O(n^2).
+// True
+// True or false: n^2 * n is O(n^3).
+// True
+// True or false: n^2 + n is O(n).
+// False
+// What’s the time complexity of the .indexOf array method?
+// O(n)
+// What’s the time complexity of the .includes array method?
+// O(n)
+// What’s the time complexity of the .forEach array method?
+// O(n)
+// What’s the time complexity of the .sort array method?
+// O(n) WRONG O(n log n)
+// What’s the time complexity of the .unshift array method?
+// O(n)
+// What’s the time complexity of the .push array method?
+// O(1)
+// What’s the time complexity of the .splice array method?
+// O(n)
+// What’s the time complexity of the .pop array method?
+// O(1)
+// What’s the time complexity of the Object.keys() function?
+// O(n)
+// BONUS
+
+// What’s the space complexity of the Object.keys() function?
+// O(n)

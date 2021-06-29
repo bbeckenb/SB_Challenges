@@ -37,7 +37,7 @@ class Calculator():
 
     def get_user_input(self, input):
 
-        if input in self.operators or input.isdigit() == True:
+        if input in self.operators or str(input).isdigit() == True:
             self.data.append(input)
             if len(self.data) >= 2:
                 self.last = self.convert_num_to_float(self.data[-1])

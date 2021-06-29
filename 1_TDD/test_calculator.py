@@ -50,7 +50,7 @@ class CalculatorTestCase(TestCase):
     def test_accept_user_input_number(self):
     
         user_input = self.calc.get_user_input("9")
-        self.assertTrue(True == user_input.isdigit())
+        self.assertTrue(True == str(user_input).isdigit())
 
         user_input = self.calc.get_user_input('a')
         self.assertEqual(user_input, 'That is not a valid input!')
