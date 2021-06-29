@@ -14,7 +14,7 @@ Show Menu of arithmetic operations
  
 Calculator tasks
  ##
- Store at least last 2(?) numbers
+  * Store at least last 2(?) numbers
   * Initial Display operation menu
   * Accept valid input
  Running Display menu

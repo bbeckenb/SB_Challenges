@@ -4,6 +4,7 @@ import io
 from random import choice
 from string import  ascii_letters
 from unittest import TestCase
+import unittest
 
 class CalculatorTestCase(TestCase):
     
@@ -22,7 +23,7 @@ class CalculatorTestCase(TestCase):
         #  Current State: 0  $:
         captured_output = io.StringIO()
         sys.stdout = captured_output
-        # what every happens here is captured...
+        # whatever happens here is captured...
         self.calc.run_initial_menu()
         sys.stdout = sys.__stdout__ 
         mock_stdout = ("Enter Operation and operand -"
@@ -54,7 +55,7 @@ class CalculatorTestCase(TestCase):
         user_input = self.calc.get_user_input('a')
         self.assertEqual(user_input, 'That is not a valid input!')
 
-        
+    @unittest.skip("skipping prompt user")
     def test_prompt_user(self):
 
         self.calc.current_state = 9 
@@ -65,7 +66,43 @@ class CalculatorTestCase(TestCase):
         self.calc.prompt_user()
 
         sys.stdout = sys.__stdout__ 
-        mock_stdout = (f"Current State: {'9'}  Enter: ")
+
+        mock_stdout = "Current State: 9  Enter: "
 
         self.assertEqual(captured_output.getvalue(), mock_stdout)
+
+
+
+    def test_recall_last_two_inputs(self):
+        
+        # self.calc.get_user_input("=")
+
+        # self.assertEqual(self.calc.snd_last, 0)
+
+        self.calc.get_user_input("4")
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("5")
+        
+
+        self.assertEqual(self.calc.last, 5)
+        self.assertEqual(self.calc.snd_last, "+")
+        self.assertNotEqual(self.calc.last, "=")
+
+    # def test_convert_number
+
+    def test_add_calculation(self):
+        self.calc.get_user_input("5")
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("5")
+
+        self.assertEqual(self.calc.current_state, 10)
+
+        
+    def test_subtraction(self):
+        self.calc.get_user_input(5)
+        self.calc.get_user_input('-')
+        self.calc.get_user_input(1)
+        
+        self.assertEqual(self.calc.current_state, 4)
+            
 
