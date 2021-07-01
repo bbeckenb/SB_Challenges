@@ -27,8 +27,8 @@ class CalculatorTestCase(TestCase):
         self.calc.run_initial_menu()
         sys.stdout = sys.__stdout__ 
         mock_stdout = ("Enter Operation and operand -"
-                       "'+', '-', '/', and '=', 'C' (clear last), and an 'AC' (clear all)"
-                       "'m' for menu\n")
+               "'+', '-', '*', '/', and '=', 'C' (clear last), and an 'AC' (clear all)"
+               "'m' for menu\n")
                      
 
         self.assertEqual(captured_output.getvalue(), mock_stdout)
@@ -36,8 +36,8 @@ class CalculatorTestCase(TestCase):
     def test_accept_user_input_all_operators(self):
         valid_operators = set(['+', '-', '/', '='])
 
-        user_input = self.calc.get_user_input('-')
-        self.assertIn(user_input, valid_operators)
+        self.calc.get_user_input('-')
+        self.assertTrue(self.calc.data[-1] == '-')
 
         random_alpha = choice(ascii_letters)
         # print(random_alpha)
@@ -49,8 +49,8 @@ class CalculatorTestCase(TestCase):
 
     def test_accept_user_input_number(self):
     
-        user_input = self.calc.get_user_input("9")
-        self.assertTrue(True == str(user_input).isdigit())
+        self.calc.get_user_input("9")
+        self.assertTrue(self.calc.current_state == '9')
 
         user_input = self.calc.get_user_input('a')
         self.assertEqual(user_input, 'That is not a valid input!')
@@ -58,7 +58,7 @@ class CalculatorTestCase(TestCase):
     @unittest.skip("skipping prompt user")
     def test_prompt_user(self):
 
-        self.calc.current_state = 9 
+        self.calc.current_state = "9" 
         captured_output = io.StringIO()
         sys.stdout = captured_output
         # what every happens here is captured...
@@ -84,7 +84,7 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input("5")
         
 
-        self.assertEqual(self.calc.last, 5)
+        self.assertEqual(self.calc.last, "5")
         self.assertEqual(self.calc.snd_last, "+")
         self.assertNotEqual(self.calc.last, "=")
 
@@ -95,14 +95,44 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input("+")
         self.calc.get_user_input("5")
 
-        self.assertEqual(self.calc.current_state, 10)
+        self.assertEqual(self.calc.current_state, "10")
 
         
-    def test_subtraction(self):
-        self.calc.get_user_input(5)
+    def test_subtraction_calculation(self):
+        self.calc.get_user_input("5")
         self.calc.get_user_input('-')
-        self.calc.get_user_input(1)
+        self.calc.get_user_input("1")
         
-        self.assertEqual(self.calc.current_state, 4)
+        self.assertEqual(self.calc.current_state, "4")
             
+    # def test_division(self):
+    def test_multiplication(self): 
+        self.calc.get_user_input("2")
+        self.calc.get_user_input('*')
+        self.calc.get_user_input("14")
+        
+        self.assertEqual(self.calc.current_state, "28")
 
+    def test_divsion(self): 
+        self.calc.get_user_input("22")
+        self.calc.get_user_input('/')
+        self.calc.get_user_input("11")
+        
+        self.assertEqual(self.calc.current_state, "2")
+
+    def test_one_numeric_input_equals(self):
+        self.calc.get_user_input("5")
+        self.calc.get_user_input("=")
+        self.calc.get_user_input("=")
+        
+        self.assertNotEqual(self.calc.get_user_input("="), "That is not a valid input!")
+        self.assertEqual(self.calc.current_state, "5")
+        
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("=")
+
+        self.assertEqual(self.calc.current_state, "10")
+
+        
+
+        
