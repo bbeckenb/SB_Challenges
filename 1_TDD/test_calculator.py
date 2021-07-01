@@ -16,6 +16,7 @@ class CalculatorTestCase(TestCase):
     def tearDown(self):
         """stuff to do after each test"""
 
+    @unittest.skip("skipping prompt user")
     def test_initial_menu_display(self):
         #  Display operation menu
         # Enter Operation and operand -
@@ -33,6 +34,7 @@ class CalculatorTestCase(TestCase):
 
         self.assertEqual(captured_output.getvalue(), mock_stdout)
 
+    @unittest.skip("skipping prompt user")  
     def test_accept_user_input_all_operators(self):
         valid_operators = set(['+', '-', '/', '='])
 
@@ -47,6 +49,8 @@ class CalculatorTestCase(TestCase):
         user_input = self.calc.get_user_input("")
         self.assertNotIn(user_input,valid_operators)
 
+
+    @unittest.skip("skipping prompt user")
     def test_accept_user_input_number(self):
     
         self.calc.get_user_input("9")
@@ -133,6 +137,45 @@ class CalculatorTestCase(TestCase):
 
         self.assertEqual(self.calc.current_state, "10")
 
-        
+    def test_2_numeric_inputs_with_equals(self):
 
+        self.calc.get_user_input("5")
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("3") # ->
+
+        self.assertEqual(self.calc.current_state, "8")
+
+        self.calc.get_user_input("=") # 
+
+        self.calc.get_user_input("=") #
+
+        self.assertEqual(self.calc.current_state, "14")
+
+        self.calc.get_user_input("-") #
+        self.calc.get_user_input("4") #
+        self.assertEqual(self.calc.current_state, "10")
+
+        self.calc.get_user_input("=")
+        self.assertEqual(self.calc.current_state, "6")
+
+
+        self.calc.get_user_input("*") #
+        self.calc.get_user_input("4") #
+        
+        self.assertEqual(self.calc.current_state, "24")
+
+        self.calc.get_user_input("=")
+        self.assertEqual(self.calc.current_state, "96")
+
+    def test_C_command(self): 
+
+        self.calc.get_user_input("5")
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("2") # ->
+        self.calc.get_user_input("=") # -> 9 
+        self.calc.get_user_input("R")
+        self.calc.get_user_input("R")
+
+        self.assertEqual(self.calc.data[-1], "+")
+        self.assertEqual(self.current_state, "5")
         
