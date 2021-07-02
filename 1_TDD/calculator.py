@@ -19,22 +19,29 @@ class Calculator():
                "'m' for menu"))
 
     def create_momento(self):
-        momento = {'data': self.data, 
-        'current_state': self.current_state,
-        'snd_last': self.snd_last,
-        'last': self.last}
+        data = list(self.data)
+        current_state = str(self.current_state)
+        snd_last = str(self.snd_last)
+        last = str(self.last)
+        
+        momento = {'data': data, 
+        'current_state': current_state,
+        'snd_last': snd_last,
+        'last': last}
         self.list_of_states.append(momento)
 
     def revert_state(self):
-        prev_state = self.list_of_states.pop()
-        # print(f"prev state {prev_state}")
+        current_state = self.list_of_states.pop()
+        prev_state = self.list_of_states[-1]
+        print('\n')
+        print('prev_state', prev_state)
+        print('list of states after pop', self.list_of_states)
         self.data = prev_state['data']
         self.current_state = prev_state['current_state']
         self.snd_last = prev_state['snd_last']
         self.last = prev_state['last']
 
     def perform_calculation(self, operator):
-        # print(f"in perform_calculation current state {self.current_state}, last {self.last}, operator {operator}, data {self.data}")
         a = self.convert_num_to_int(self.current_state)
         b = self.convert_num_to_int(self.last)
         return str(self.arithmetic[(operator)](a,b))
@@ -61,16 +68,15 @@ class Calculator():
                     self.last = self.data[0]
 
             elif user_input == '=':
-                # print(f"in user_input {self.snd_last, self.last}")
                 if not self.last.isnumeric():
                     self.last, self.snd_last = self.snd_last, self.last
-
-            elif user_input == 'R':
-                self.revert_state()
-            
+            print('\n')
+            print('user_input is', user_input)
             if user_input != 'R':   
                 self.update_state()
-
+            else:
+                self.revert_state()
+    
         else:
             return 'That is not a valid input!'
             
@@ -78,12 +84,12 @@ class Calculator():
     def update_state(self):
         if self.snd_last in self.arithmetic.keys():
             self.current_state = self.perform_calculation(self.snd_last)
-            # print(f"{self.current_state} cur state")
         else: 
             if self.last.isnumeric():
                 self.current_state = self.last
 
         self.create_momento()   
+        print('list of states', self.list_of_states)
         return self.current_state
 
         
