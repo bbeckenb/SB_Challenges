@@ -2,10 +2,10 @@ https://github.com/florinpop17/app-ideas/blob/master/Projects/1-Beginner/Calcula
 
 
 Display current number or result of last operation
-    '+', '-', '/', and '=', a 'C' button (for clear), and an 'AC'
+    '+', '-', '/', and '=', a 'R' button (for clear), and an 'AC'
 Show Menu of arithmetic operations
 
- click the 'C' button to clear the last number or the last operation.
+ click the 'R' button to clear the last number or the last operation.
  click the 'AC' button to clear all internal work areas and to set the display to 0.
  'ERR' displayed if any operation would exceed the 8 digit maximum
 
