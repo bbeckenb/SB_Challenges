@@ -16,7 +16,7 @@ class CalculatorTestCase(TestCase):
     def tearDown(self):
         """stuff to do after each test"""
 
-    # @unittest.skip("skipping prompt user")
+    @unittest.skip("skipping prompt user")
     def test_initial_menu_display(self):
         #  Display operation menu
         # Enter Operation and operand -
@@ -54,7 +54,7 @@ class CalculatorTestCase(TestCase):
     def test_accept_user_input_number(self):
     
         self.calc.get_user_input("9")
-        self.assertTrue(self.calc.current_state == '9')
+        self.assertTrue(self.calc.current_state == '9.0')
 
         user_input = self.calc.get_user_input('a')
         self.assertEqual(user_input, 'That is not a valid input!')
@@ -88,26 +88,30 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input("5")
         
 
-        self.assertEqual(self.calc.last, "5")
+        self.assertEqual(self.calc.last, "5.0")
         self.assertEqual(self.calc.last_operator, "+")
         self.assertNotEqual(self.calc.last, "=")
 
     # def test_convert_number
     # @unittest.skip("skipping add calculation ")
     def test_add_calculation(self):
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("5")
+        
         self.calc.get_user_input("5")
         self.calc.get_user_input("+")
         self.calc.get_user_input("5")
 
-        self.assertEqual(self.calc.current_state, "10")
+        self.assertEqual(self.calc.current_state, "15.0")
 
-     # @unittest.skip("skipping subtraction ")  
+    # @unittest.skip("skipping subtraction ")  
     def test_subtraction_calculation(self):
         self.calc.get_user_input("5")
         self.calc.get_user_input('-')
         self.calc.get_user_input("1")
         
-        self.assertEqual(self.calc.current_state, "4")
+        self.assertEqual(self.calc.current_state, "4.0")
             
     # @unittest.skip("skipping multiplication ")
     def test_multiplication(self): 
@@ -115,7 +119,7 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input('*')
         self.calc.get_user_input("14")
         
-        self.assertEqual(self.calc.current_state, "28")
+        self.assertEqual(self.calc.current_state, "28.0")
 
     # @unittest.skip("skipping recall ")
     def test_divsion(self): 
@@ -123,7 +127,29 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input('/')
         self.calc.get_user_input("11")
         
-        self.assertEqual(self.calc.current_state, "2")
+        self.assertEqual(self.calc.current_state, "2.0")
+
+    # @unittest.skip("skipping recall ")
+    def test_division_by_zero(self): 
+        self.calc.get_user_input("21")
+        self.calc.get_user_input('/')
+        self.calc.get_user_input("0")
+        
+        self.assertEqual(self.calc.current_state, "21.0")
+        self.calc.get_user_input("=")
+        print(self.calc.list_of_states)
+
+        self.calc.get_user_input("3")
+        self.assertEqual(self.calc.current_state, "7.0")
+
+        self.calc.get_user_input('/')
+        self.calc.get_user_input("0")
+        self.assertEqual(self.calc.current_state, "7.0")
+
+        self.calc.get_user_input('+')
+        self.calc.get_user_input("3")
+        self.assertEqual(self.calc.current_state, "10.0")
+
 
     # @unittest.skip("skipping recall ")
     def test_one_numeric_input_equals(self):
@@ -132,12 +158,12 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input("=")
         
         self.assertNotEqual(self.calc.get_user_input("="), "That is not a valid input!")
-        self.assertEqual(self.calc.current_state, "5")
+        self.assertEqual(self.calc.current_state, "5.0")
         
         self.calc.get_user_input("+")
         self.calc.get_user_input("=")
 
-        self.assertEqual(self.calc.current_state, "10")
+        self.assertEqual(self.calc.current_state, "10.0")
 
     # @unittest.skip("skipping recall ")
     def test_2_numeric_inputs_with_equals(self):
@@ -146,29 +172,29 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input("+")
         self.calc.get_user_input("3") # ->
 
-        self.assertEqual(self.calc.current_state, "8")
+        self.assertEqual(self.calc.current_state, "8.0")
 
         self.calc.get_user_input("=") # 
 
         self.calc.get_user_input("=") #
 
-        self.assertEqual(self.calc.current_state, "14")
+        self.assertEqual(self.calc.current_state, "14.0")
 
         self.calc.get_user_input("-") #
         self.calc.get_user_input("4") #
-        self.assertEqual(self.calc.current_state, "10")
+        self.assertEqual(self.calc.current_state, "10.0")
 
         self.calc.get_user_input("=")
-        self.assertEqual(self.calc.current_state, "6")
+        self.assertEqual(self.calc.current_state, "6.0")
 
 
         self.calc.get_user_input("*") #
         self.calc.get_user_input("4") #
         
-        self.assertEqual(self.calc.current_state, "24")
+        self.assertEqual(self.calc.current_state, "24.0")
 
         self.calc.get_user_input("=")
-        self.assertEqual(self.calc.current_state, "96")
+        self.assertEqual(self.calc.current_state, "96.0")
 
     # @unittest.skip("skipping recall ")
     def test_R_command(self): 
@@ -181,7 +207,7 @@ class CalculatorTestCase(TestCase):
         self.calc.get_user_input("R")
 
         self.assertEqual(self.calc.data[-1], "+")
-        self.assertEqual(self.calc.current_state, "5")
+        self.assertEqual(self.calc.current_state, "5.0")
 
     # @unittest.skip("skipping recall ")    
     def test_AC_command(self):
@@ -196,6 +222,53 @@ class CalculatorTestCase(TestCase):
         self.assertEqual(self.calc.list_of_states, [])
         self.assertEqual(self.calc.data, [])
         self.assertEqual(self.calc.current_state, '0')
-        self.assertEqual(self.calc.last_operator, '0')
+        self.assertEqual(self.calc.last_operator, None)
         self.assertEqual(self.calc.last, '0')
 
+    def test_jumbled_operators_and_numbers(self):
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("-")
+        self.calc.get_user_input("*")
+        self.calc.get_user_input("/")
+        self.calc.get_user_input("9")
+        
+        self.assertEqual(self.calc.current_state, '0.0')
+
+        self.calc.get_user_input("AC")
+        self.calc.get_user_input("7")
+        self.calc.get_user_input("4")
+        self.calc.get_user_input("3")
+        self.calc.get_user_input("2")
+
+        self.assertEqual(self.calc.current_state, '2.0')
+
+
+    def test_division_on_floats(self):
+        self.calc.get_user_input("9")
+        self.calc.get_user_input("/")
+        self.calc.get_user_input("2")
+        
+        self.assertEqual(self.calc.current_state, '4.5')
+
+    def test_all_operators_on_floats(self):
+        self.calc.get_user_input("9")
+        self.calc.get_user_input("/")
+        self.calc.get_user_input("2")
+        self.calc.get_user_input("/")
+        self.calc.get_user_input("2")
+
+        self.assertEqual(self.calc.current_state, '2.25')
+
+        self.calc.get_user_input("*")
+        self.calc.get_user_input("4")
+        self.assertEqual(self.calc.current_state, '9.0')
+
+        self.calc.get_user_input("+")
+        self.calc.get_user_input("4.33")
+
+        self.assertEqual(self.calc.current_state, '13.33')
+
+        self.calc.get_user_input("-")
+        self.calc.get_user_input("4.33")
+
+        self.assertEqual(self.calc.current_state, '9.0')

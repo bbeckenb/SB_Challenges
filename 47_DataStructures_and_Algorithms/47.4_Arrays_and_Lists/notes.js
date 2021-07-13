@@ -103,3 +103,14 @@ console.log(train);
 // train.traverse();
 // train.find('freight_car');
 
+// Runtime of linked lists
+// Going to next item is O(1)
+// Going to item by index is O(n) (this is O(1) for array)
+// Searching for value is O(n)
+// Insertion or deletion is O(n)
+// adding to start is O(1)
+// Appending to the end is O(1) if we know the tail, O(n) if we don't (O(1) for arrays)
+// Deleting at the start is O(1)
+
+// Doubly linked list
+// have a 'next' and a 'previous'

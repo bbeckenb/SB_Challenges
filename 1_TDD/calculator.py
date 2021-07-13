@@ -1,17 +1,15 @@
 import operator
 
-
-
 class Calculator(): 
 
     def __init__(self):
         self.list_of_states = []
         self.data = []
         self.current_state = '0'
-        self.last_operator = '0'  
+        self.last_operator = None  
         self.last = '0' 
-        self.user_commands = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.floordiv,
-                            '=': self.equal_func, 'R': self.revert_state, "AC": self.reset_calculator}       
+        self.user_commands = {'+': operator.add, '-': operator.sub, '*': operator.mul, '/': operator.truediv,
+                            '=': self.perform_calculation, 'R': self.revert_state, "AC": self.reset_calculator}       
     
     def __repr__(self) -> str:
         rep = f"Current State: {self.current_state}\n  Data: {self.data} \n "
@@ -22,12 +20,6 @@ class Calculator():
         print(("Enter Operation and operand -"
                "'+', '-', '*', '/', and '=', 'R' (clear last), and an 'AC' (clear all)"
                "'m' for menu"))
-
-    def equal_func(self):
-        if self.last_operator in self.user_commands:
-            self.current_state = self.perform_calculation() 
-            self.create_momento() 
-            print("equals", self.current_state)
         
     def create_momento(self):
         data = list(self.data)
@@ -56,23 +48,41 @@ class Calculator():
         self.list_of_states = []
         self.data = []
         self.current_state = '0'
-        self.last_operator = '0'
+        self.last_operator = None
         self.last = '0' 
         
     def perform_calculation(self):
-        a = self.convert_num_to_int(self.current_state)
-        b = self.convert_num_to_int(self.last)
-        return str(self.user_commands[(self.last_operator)](a,b))
+        print(f"current state : {self.current_state}")
+        print(f"last op : {self.last_operator}")
+        print(f"last input : {self.last}")
+        if len(self.data) == 1:
+            self.current_state = self.last
+        else: 
+            a = self.convert_num_to_float(self.current_state)
+            b = self.convert_num_to_float(self.last)
+            if b == 0 and self.last_operator == '/':
+                return self.current_state
+            elif self.last_operator == None:
+                self.current_state = self.last
+            else:    
+                self.current_state = str(round(self.user_commands[(self.last_operator)](a,b), 2))
+        self.create_momento() 
+        print(f"state after calc : {self.current_state}")
+        
 
     def prompt_user(self):
         user_input = input(f"Current State: {self.current_state}  Enter: ")
         self.get_user_input(user_input)
 
-    def convert_num_to_int(self, num_or_operator):
+    def convert_num_to_float(self, num_or_operator):
         if num_or_operator in self.user_commands.keys():
             return num_or_operator
         else:
-            return int(num_or_operator)
+            return float(num_or_operator)
+
+    def is_number(self, s):
+        """ Returns True is string is a number. """
+        return s.replace('.','',1).isdigit()
 
     def get_user_input(self, user_input):
         if user_input in self.user_commands.keys(): 
@@ -84,22 +94,18 @@ class Calculator():
                 self.last_operator = user_input
                 self.create_momento() 
         
-        elif user_input.isnumeric() == True:
+        elif self.is_number(user_input):
+            user_input = str(self.convert_num_to_float(user_input))
+            # print('user_input in get_user_input', user_input, type(user_input))
             self.data.append(user_input)
             self.last = user_input
-            self.update_state()
-            self.create_momento()   
+            self.perform_calculation()
                 
         else:
             return 'That is not a valid input!'
             
-    def update_state(self):
-        if len(self.data) == 1:
-            self.current_state = self.last
-        elif len(self.data) >= 3: 
-            self.current_state = self.perform_calculation()   
-
-        return self.current_state
 
         
+
+
 
