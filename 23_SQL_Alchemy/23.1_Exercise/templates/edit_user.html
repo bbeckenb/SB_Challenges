@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Edit User Details {% endblock %}
+{% block content %}
+    <h1>Current User Attributes</h1>
+    <img src="{{user.image_url}}" alt="Profile Picture">
+    <div>
+        <h2>First Name: {{user.first_name}}</h2>
+    </div>
+    <div>
+        <h2>Last Name: {{user.last_name}}</h2>
+    </div>
+    <a href="/users/{{user.id}}"><button>Cancel Edits</button></a>
+    
+    <form action="/users/{{user.id}}/edit" method="POST">
+        <div>
+            <input type="text" name="first_name" placeholder="first name">
+        </div>
+        <div>
+            <input type="text" name="last_name" placeholder="last name">
+        </div>
+        <div>
+            <input type="url" name="image_url" placeholder="profile image url">
+        </div>
+        <div>
+            <button>Make Edits</button>
+        </div>
+    </form>
+{% endblock %}

@@ -90,6 +90,7 @@ function findIndex(arr, val, p1=0, p2=arr.length-1) {
     return findIndex(arr, val, p1+1, p2-1);
   }
 }
+
 console.log('findindex')
 let animals = ["duck", "cat", "pony", "cat"];
 console.log(findIndex(animals, "duck"))
