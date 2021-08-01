@@ -62,13 +62,28 @@ class Pet(db.Model):
     # append .first() to get first when filtering
     # Class.query.filter(column (==, >, <, etc.) filter_criteria).all() creates boolean mask
         # ex: Pet.query.filter(Pet.species == 'cat', Pet.hunger == 20).all()
+    # You can chain on queries
+        # ex: new_hires = Employee.query.filter(Employee.id >= 4)
+        # ex cont: ca_new_hires = new_hires.filter(Employee.state == 'CA') 
+        # More flexible way to do this db.session.query(Employee.id, Employee.name).all()
+            # returns a list of tuples instead of list of object
+            # No access to Model relationships this way
     # Fetching records
         # .one() error if 0 or >1 items are returned
         # .first(), gets first record or None
         # .all() returns all records as list
         # .get(pk) returns whatever primary key (pk)
         # .one_or_none() gets first record, error if >1, None if 0
-
+    # .like() - string pattern matching
+        # ex: Employee.query.filter(Employee.name.like('% Phoenix')).all()
+    # .in_()
+        # ex: Employ.query.filter(Employee.state.in_(['CA', 'WA', 'OR'])).all()
+    # OR
+        # ex: q.filter( db.or_(Employee.state == 'CA', Employee.id > 65))
+        # ex: q.filter( (Employee.state == 'CA') | (Employee.id > 65) )
+    # AND
+        # ex: q.filter(Employee.state == 'CA', Employee.id > 65)
+        # ex: q.filter( (Employee.state == 'CA') & (Employee.id > 65) )
 # .delete()
     # ex: Pet.query.filter_by(hunger=57).delete() 
     # Don't need to Pet.session.add() because we are not staging new objects, SQL Alchemy already knows about instances we are deleting
