@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Create New Tag {% endblock %}
+{% block content %}
+    <h1>Edit a tag!</h1>
+    <form action="/tags/{{tag.id}}/edit" method="POST">
+        <div>
+            <span>Tag Name<input type="text" name="tag_name" value="{{tag.name}}"></span>
+        </div>
+        <div>
+            <button>Edit tag</button>
+        </div>
+    </form>
+    <a href="/tags/{{tag.id}}"><button>Cancel</button></a>
+{% endblock %}

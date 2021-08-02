@@ -1,6 +1,9 @@
 """Models for Blogly"""
 import datetime
+from enum import unique
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref, relationship
+from sqlalchemy.sql.schema import ForeignKey
 
 db = SQLAlchemy()
 
@@ -35,7 +38,7 @@ class User(db.Model):
 class Post(db.Model):
     """Post model"""
 
-    __tablename__= "posts"
+    __tablename__ = "posts"
     
     id = db.Column(db.Integer,
                         primary_key=True,
@@ -48,8 +51,40 @@ class Post(db.Model):
 
     creator_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'))
 
+    # assignment = db.relationship('PostTag', cascade='all, delete, delete-orphan', backref='post')
 
+    tags = db.relationship('Tag', secondary='posts_tags', backref='posts')
 
     def __repr__(self):
         p=self
         return f"<Post title={p.title} content={p.content} created_at={p.created_at} creator_id={p.creator_id}>"
+
+
+class Tag(db.Model):
+    """Tags for posts"""
+    
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer, 
+                    primary_key=True,
+                    autoincrement=True)
+    
+    name = db.Column(db.Text,
+                    unique=True,
+                    nullable=False)
+    
+    # assignments = db.relationship('PostTag', cascade='all, delete, delete-orphan', backref='tags')
+
+class PostTag(db.Model):
+    """Middle table connecting posts table to tags table"""
+    
+    __tablename__ = "posts_tags"
+
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id', ondelete='CASCADE'), primary_key=True, nullable=False)
+
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id', ondelete='CASCADE'), primary_key=True, nullable=False)
+
+
+
+
+    

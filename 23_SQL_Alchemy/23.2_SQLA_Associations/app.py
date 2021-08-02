@@ -1,5 +1,3 @@
-"""Blogly application."""
-
 from flask import Flask, redirect, render_template, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from models import db, connect_db, Department, Employee, get_directory

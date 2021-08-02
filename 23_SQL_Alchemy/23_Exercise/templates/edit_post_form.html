@@ -2,19 +2,22 @@
 {% block title %} Create New Post {% endblock %}
 {% block content %}
     <h1>Edit Post</h1>
-    <h3>Current Title: 
-        {{post.title}}</h3>
-    <p>Current Content:
-        {{post.content}}
-    </p>
     <form action="/posts/{{post.id}}/edit" method="POST">
         <div>
-            <input type="text" name="title" placeholder="title">
+            <input type="text" name="title" placeholder="title" value="{{post.title}}">
         </div>
         <div>
-            <input type="text" name="content" placeholder="content">
+            <input type="text" name="content" placeholder="content" value="{{post.content}}">
         </div>
-        
+        {% for tag in tags %}
+        <div>
+            {% if tag in post.tags %}
+            <span><input type="checkbox" name="tag_list" value="{{tag.id}}" checked> {{tag.name}}</span>
+            {% else %}
+            <span><input type="checkbox" name="tag_list" value="{{tag.id}}"> {{tag.name}}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
         <div>
             <button>Edit</button>
         </div>

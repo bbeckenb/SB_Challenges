@@ -4,6 +4,12 @@
     <h1>{{post.title}}</h1>
     <p>{{post.content}}</p>
     <blockquote>By {{user.first_name}} {{user.last_name}}</blockquote>
+    <div>
+        Tags:
+        {% for tag in post.tags %}
+        <span class="badge bg-primary">{{tag.name}}</span>
+        {% endfor %}
+    </div>
     <a href="/users/{{user.id}}"><button>Go Back</button></a>
     <a href="/posts/{{post.id}}/edit"><button>Edit</button></a>
     <form action="/posts/{{post.id}}/delete" method="POST"><button>Delete</button></form>

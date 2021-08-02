@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User, Post
+from models import db, User, Post, Tag, PostTag
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///test_blogly_db'
 app.config['SQLALCHEMY_ECHO'] = False
@@ -31,10 +31,24 @@ class UserViewFunctionTestCase(TestCase):
 
         self.test_post=test_post
 
+        test_tag = Tag(name='neato cheeto!')
+        db.session.add(test_tag)
+        db.session.commit()
+
+        self.test_tag=test_tag
+
+        test_post_tag = PostTag(post_id=test_post.id, tag_id=test_tag.id)
+        db.session.add(test_post_tag)
+        db.session.commit()
+
+        self.test_post_tag = test_post_tag
+
     def tearDown(self):
         """Clean up any fouled transaction"""
         User.query.delete()
         Post.query.delete()
+        Tag.query.delete()
+        PostTag.query.delete()
 
     def test_redirect_to_users_page(self):
         with app.test_client() as client:
@@ -170,7 +184,77 @@ class UserViewFunctionTestCase(TestCase):
             self.assertEqual(res.status_code, 200)
             self.assertNotIn('Title', html)
      
+    def test_list_tags_page(self):
+         with app.test_client() as client:
+            res = client.get(f"/tags")
+            html = res.get_data(as_text=True)
 
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('<h1>Tags!</h1>', html)
+            self.assertIn('neato cheeto!</a>', html)
+            self.assertIn('<button>Add Tag</button>', html)
+
+    def test_tag_detail_page(self):
+         with app.test_client() as client:
+            res = client.get(f"/tags/{self.test_tag.id}")
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)
+            self.assertIn(f'<h1>{self.test_tag.name}</h1>', html)
+            self.assertIn(f'{self.test_post.title}</a>', html)
+            self.assertIn('<button>Edit Tag</button>', html)
+
+    def test_add_tag_page_and_form(self):
+        with app.test_client() as client:
+            res = client.get(f"/tags/new")
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('<h1>Create a tag!</h1>', html)
+            self.assertIn('<span>Tag Name<input type="text"', html)
+            self.assertIn('<button>Add tag</button>', html)
+
+            d = {'tag_name': 'bragadocious!'}
+            res = client.post(f'/tags/new', data=d) 
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('bragadocious!</a></li>', html)
+
+    def test_edit_tag_page_and_form(self):
+        with app.test_client() as client:
+            res = client.get(f"/tags/{self.test_tag.id}/edit")
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('<h1>Edit a tag!</h1>', html)
+            self.assertIn('<span>Tag Name<input type="text"', html)
+            self.assertIn('<button>Edit tag</button>', html)
+
+            d = {'tag_name': 'bragadocious!'}
+            res = client.post(f'/tags/{self.test_tag.id}/edit', data=d, follow_redirects=True) 
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('<h1>bragadocious!</h1>', html)
+
+    def test_delete_tag_page_form(self):
+        test_tag1 = Tag(id=7, name='TBD')
+        db.session.add(test_tag1)
+        db.session.commit()
+        with app.test_client() as client:
+            res = client.get(f"/tags")
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)
+            self.assertIn('<h1>Tags!</h1>', html)
+            self.assertIn('TBD</a>', html)
+            
+            res = client.post(f'/tags/7/delete') 
+            html = res.get_data(as_text=True)
+
+            self.assertEqual(res.status_code, 200)
+            self.assertNotIn('TBD</a>', html)
 
 
 

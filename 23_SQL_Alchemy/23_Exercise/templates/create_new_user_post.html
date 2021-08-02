@@ -9,7 +9,11 @@
         <div>
             <input type="text" name="content" placeholder="content">
         </div>
-        
+        {% for tag in tags %}
+        <div>
+            <span><input type="checkbox" name="tag_list" value="{{tag.id}}"> {{tag.name}}</span>
+        </div>
+        {% endfor %}
         <div>
             <button>Add</button>
         </div>

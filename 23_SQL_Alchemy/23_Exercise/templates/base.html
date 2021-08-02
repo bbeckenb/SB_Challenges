@@ -8,12 +8,17 @@
     <title>{% block title %} {% endblock %}</title>
 </head>
 <body>
+    <div class="container">
+        <nav class="navbar navbar-dark bg-primary">
+            <a href="/tags" style="color: aqua;">Tags</a> | <a href="/users" style="color: aqua;">Users</a>
+        </nav>
+    </div>
+
     <main id="content">
 
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         <section class="messages">
-            <!-- should do a conditional to check if there are messages -->
             {% for category, msg in get_flashed_messages(with_categories=true) %}
             <p class="{{category}}">{{msg}}</p>
             {% endfor %}
