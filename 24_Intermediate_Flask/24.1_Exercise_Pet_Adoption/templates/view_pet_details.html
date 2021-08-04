@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Adopt a Pet! {% endblock %}
+{% block content %}
+
+    
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-1 text-center">{{pet.name}}</h1>
+            <div class="text-center">
+                <img src="{{pet.photo_url}}" class="rounded card-img-top" alt="Picture Not Available">
+            </div>  
+            <h3 class="text-center display-5">Hi, I'm {{pet.name}} the {{pet.species}}! Nice to meet you!</h3> 
+            <p class="text-center"><i>{{pet.notes}}</i></p>
+            <div class="container text-center">
+                <a href="/" class="button btn-danger btn-lg">Go Back!</a>
+                <a href="/pets/{{pet.id}}/edit" class="button btn-info btn-lg">Edit Pet!</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
