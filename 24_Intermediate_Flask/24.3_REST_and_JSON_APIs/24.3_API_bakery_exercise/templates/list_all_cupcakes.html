@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %} Cupcake List {% endblock %}
+{% block content %}
+    <h1 class="display-1">Cupcakes</h1>
+    <ul id="cupcake-list">
+        {% for cupcake in cupcakes %}  
+        <li><button class="btn delete-cupcake btn-md btn-danger" data-id="{{cupcake.id}}">X</button> 
+            FLAVOR: {{cupcake.flavor}} SIZE: {{cupcake.size}}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="" id="add-cupcake-form" method="POST">
+        <h4>Login</h4>
+        <div class="form-group">
+          <label for="flavor">Flavor</label>
+          <input type="text" id="flavor" name="flavor">
+        </div>
+        <div class="form-group">
+            <label for="size">Size</label>
+            <input type="text" id="size" name="size">
+          </div>
+          <div class="form-group">
+            <label for="rating">Rating</label>
+            <input type="number" id="rating" name="rating">
+          </div>
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="url" id="image" name="image">
+          </div>
+       
+        <button class="btn btn-success btn-md" id="form-btn" type="submit">Add Cupcake</button>
+        <hr>
+      </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
+    integrity="sha256-T/f7Sju1ZfNNfBh7skWn0idlCBcI3RwdLSS4/I7NQKQ=" crossorigin="anonymous"></script>
+<script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+<script src="static/addDeleteCupcakes.js"></script>
+{% endblock %}
