@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Add Feedback {% endblock %}
+{% block content %}
+<div class="container-fluid" style="background-color: rgb(91, 104, 102);">
+    <h1 style="color: white;" class="display-1 text-center">Add Feedback</h1></div>
+    <div class="container">
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                <div class="form-group">
+                    {{ field.label }}
+                    {{ field(class_="form-control") }}
+                    {% for err in field.errors %}
+                        <small class="form-text text-danger">
+                            {{ err }}
+                        </small>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button class="btn btn-outline-secondary">Add</button>
+        </form>
+    </div>
+{% endblock %}

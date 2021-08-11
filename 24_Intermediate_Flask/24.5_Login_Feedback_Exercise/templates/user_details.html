@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %} User Details {% endblock %}
+{% block content %}
+<div class="container-fluid" style="background-color: rgb(91, 104, 102);">
+    <h1 style="color: white;" class="display-1 text-center">User Details</h1></div>
+    <div class="container text-center">
+        <h3 class="display-4">Hi, {{ user.first_name }} {{ user.last_name }}</h3>
+        <h3 class="display-5">Username: {{ user.username }}</h3>
+        <h3 class="display-5">E-mail: {{ user.email }}</h3>
+        <form action="/users/{{ user.username }}/delete" method="POST"><button class="btn btn-secondary">Delete User</button></form>
+    </div>
+
+    <div class="fluid-container text-left">
+        <h5 class="display-5">User Feedback</h3>
+            <a href="/users/{{ user.username }}/feedback/add" class="btn btn-success">Add Feedback</a>
+        <ul>
+            {% for feedback in feedbacks %}
+                <li><a href="/feedback/{{ feedback.id }}/update">{{ feedback.title }}   </a>
+                    <form action="/feedback/{{ feedback.id }}/delete" method="POST">
+                        <button class="btn-small btn-danger" >
+                            X
+                        </button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    
+
+{% endblock %}

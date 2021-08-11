@@ -1,3 +1,4 @@
+from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -11,6 +12,67 @@ def connect_db(app):
 
 
 # MODELS GO BELOW
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    username = db.Column(db.String(20), primary_key=True, unique=True, nullable=False)
+
+    password = db.Column(db.Text, nullable=False)
+
+    email = db.Column(db.String(50), nullable=False, unique=True)
+
+    first_name = db.Column(db.String(30), nullable=False)
+
+    last_name = db.Column(db.String(30), nullable=False)
+
+    feedbacks = db.relationship('Feedback', cascade='all, delete, delete-orphan', backref='user')
+
+    def __repr__(self):
+        u = self
+        return f"<User username={u.username} password={u.password} email={u.email} first_name={u.first_name} last_name={u.last_name}>"
+
+    @classmethod
+    def register_new_user(cls, username, pw, email, first_n, last_n):
+        """Generates salt and combines with password to then pass through hash function
+        Stores all credentials in database"""
+        pw_hash = bcrypt.generate_password_hash(pw)
+
+        pw_hash_utf8 = pw_hash.decode("utf8")
+
+        return cls(username=username, password=pw_hash_utf8, email=email, first_name=first_n, last_name=last_n)
+
+    @classmethod
+    def authenticate_user(cls, username, pw):
+        """Pulls user info from database based on username (pk), 
+        compares password from login attempt to what is stored in database
+        
+        if user is authentic, return user instance, if not, return bool False
+        """
+
+        curr_user = User.query.filter_by(username=username).first()
+
+        if curr_user and bcrypt.check_password_hash(curr_user.password, pw):
+            return curr_user
+        else:
+            return False
+
+class Feedback(db.Model):
+    __tablename__ = 'feedbacks'
+
+    id = db.Column(db.Integer,
+                        primary_key=True,
+                        autoincrement=True)
+    title = db.Column(db.String(100), nullable=False)
+
+    content = db.Column(db.Text, nullable=False)
+    
+    username = db.Column(db.String(20), db.ForeignKey('users.username', ondelete='CASCADE'))
+
+
+
+
+
 
 # EXAMPLES
 # Examples of models
