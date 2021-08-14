@@ -6,6 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from forms import UserRegistrationForm, UserLoginForm, FeedbackForm
 from models import db, connect_db, User, Feedback
 from sqlalchemy.exc import IntegrityError
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///user_feedback_db'
@@ -15,7 +16,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 connect_db(app)
 db.create_all()
 
-app.config['SECRET_KEY'] = '\xda\n\xb4N0|\x15\xb8\x0c"\x17\xd5$\xf1RO' #python3 import random, random.randbytes(n)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '\xda\n\xb4N0|\x15\xb8\x0c"\x17\xd5$\xf1RO') #python3 import random, random.randbytes(n)
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
