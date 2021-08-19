@@ -7,7 +7,7 @@ When to use GET/ POST:
 -Sending e-mail = POST
 -Updating a User = POST
 
-PUT - update entire resource (every piece of data associtated with given resource)
+PUT - update entire resource (every piece of data associated with given resource)
 PATCH - update part of resource (patch it up)
 DELETE - Delete resource
 
