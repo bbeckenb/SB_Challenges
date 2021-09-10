@@ -121,7 +121,6 @@ getCardBtn.addEventListener('click', function(e) {
                    
     } else {
         cardDeck1.drawCardSuitVal()
-        
     }
     
 })
