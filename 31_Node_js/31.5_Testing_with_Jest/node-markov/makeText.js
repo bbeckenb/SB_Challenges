@@ -14,8 +14,6 @@ function cat(path) {
                 console.error(`Error reading ${path}: ${err}`);
                 process.exit(1);
             } else {
-                // console.log(data);
-                console.log('IM HERE NOW')
                 handleOutput(data, 'file', path);
             }
     });           
@@ -24,7 +22,6 @@ function cat(path) {
 async function webCat(URL) {
     try {
         let res = await axios.get(URL)
-            // console.log(res.data);
             handleOutput(res.data, 'url', URL);
     } catch (err) {
         console.error(`Error fetching ${URL} - ${err}`);
@@ -34,8 +31,7 @@ async function webCat(URL) {
 
 let sourceType = process.argv[2];
 let toRead = process.argv[3];
-console.log('sourceType', sourceType)
-console.log('toRead', toRead)
+
 if (sourceType === 'file') {
     console.log('IM HERE')
     cat(toRead);
@@ -43,4 +39,5 @@ if (sourceType === 'file') {
     webCat(toRead);
 } else {
     console.error(`Error: Source type ${sourceType} not supported. Please use 'file' or 'url'`)
+    process.exit(1);
 }

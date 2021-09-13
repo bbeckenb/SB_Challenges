@@ -49,9 +49,6 @@ class MarkovMachine {
   }
 }
 
-// let p = new MarkovMachine("the cat in the hat");
-// console.log(p.words);
-// console.log(p.chains);
-// p.makeText();
+
 
 module.exports = { MarkovMachine };
