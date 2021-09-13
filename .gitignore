@@ -24,3 +24,6 @@
 26_Twitter_Clone/venv
 31_Node_js/31.4_Node/package.json
 31_Node_js/31.4_Node/node-exercise/package.json
+31_Node_js/31.4_Node/node-exercise/node_modules
+31_Node_js/31.5_Testing_with_Jest/node-jest-testing-demo/package.json
+31_Node_js/31.5_Testing_with_Jest/node-markov/node_modules
