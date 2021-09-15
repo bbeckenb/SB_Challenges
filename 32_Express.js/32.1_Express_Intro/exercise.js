@@ -65,14 +65,12 @@ function mode(numbers) {
             maxIndex = count[number];
         }
     }
- 
     for (i in count)
         if (count.hasOwnProperty(i)) {
             if (count[i] === maxIndex) {
                 modes.push(Number(i));
             }
         }
- 
     return modes;
 }
 

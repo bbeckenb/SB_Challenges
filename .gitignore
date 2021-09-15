@@ -28,3 +28,6 @@
 31_Node_js/31.5_Testing_with_Jest/node-jest-testing-demo/package.json
 31_Node_js/31.5_Testing_with_Jest/node-markov/node_modules
 32_Express.js/32.1_Express_Intro/node_modules
+32_Express.js/32.2_Routing_and_Middleware/node_modules
+32_Express.js/32.2_Routing_and_Middleware/TestingExpress/
+32_Express.js/32.2_Express_Shop_List_API/node_modules
