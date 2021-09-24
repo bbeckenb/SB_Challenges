@@ -6,7 +6,7 @@ const db = require("../db");
 router.get('/', async (req, res, next) => {
     try {
         const results = await db.query(`SELECT * FROM invoices`);
-        return res.json({companies: results.rows})
+        return res.json({invoices: results.rows})
     } catch (e) {
         return next(e)
     }
@@ -17,7 +17,7 @@ router.get('/:id', async (req, res, next) => {
         const { id } = req.params;
         const results = await db.query(`SELECT * FROM invoices WHERE id = $1`, [id]);
         if (results.rows.length === 0) {
-            throw new ExpressError(`No company with id number of ${id} found`, 404)
+            throw new ExpressError(`No invoice with id number of ${id} found`, 404)
         }
         return res.send({ invoice: results.rows[0] })
     } catch (e) {
@@ -38,10 +38,20 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { amt } = req.body;
-        const results = await db.query(`UPDATE invoices SET amt=$1 WHERE id=$2 RETURNING id, comp_code, amt, paid, add_date, paid_date`, [amt, id]);
+        const { amt, paid } = req.body;
+        if (amt === undefined || paid === undefined) {
+                throw new ExpressError(`Must include amt and paid`, 404)
+            }
+        let parameters;
+        if (paid === true) {
+            const jsToSqlDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            parameters = [amt, paid, jsToSqlDate, id]
+        } else {
+            parameters = [amt, paid, null, id]
+        } 
+        const results = await db.query(`UPDATE invoices SET amt=$1, paid=$2, paid_date=$3 WHERE id=$4 RETURNING id, comp_code, amt, paid, add_date, paid_date`, parameters)
         if (results.rows.length === 0) {
-            throw new ExpressError(`Cannot update company with id of ${id}`, 404);
+            throw new ExpressError(`No invoice with id number of ${id} found`, 404)
         }
         return res.send({ invoice: results.rows[0] })
     } catch (e) {

@@ -1,5 +1,6 @@
 const express = require("express");
 const ExpressError = require("../expressError")
+const slugify = require('slugify')
 const router = express.Router();
 const db = require("../db");
 
@@ -15,14 +16,23 @@ router.get('/', async (req, res, next) => {
 router.get('/:code', async (req, res, next) => {
     try {
         const { code } = req.params;
-        const company = await db.query(`SELECT * FROM companies WHERE code = $1`, [code]);
-        if (company.rows.length === 0) {
+        const companyAndIndustries = await db.query(
+                                                    `SELECT c.code, c.name, c.description, i.name
+                                                     FROM companies AS c
+                                                     LEFT JOIN companies_industries AS ci
+                                                     LEFT JOIN industries AS i ON i.code = ci.ind_code
+                                                     ON c.code = ci.comp_code
+                                                     WHERE c.code = $1`, [code]
+                                     );
+        if (companyAndIndustries.rows.length === 0) {
             throw new ExpressError(`No company with code number of ${code} found`, 404)
         }
-        const invoices = await db.query(`SELECT * FROM invoices WHERE comp_code = $1`, [code]);
-        const companyObjOut = company.rows[0];
-        companyObjOut['invoices'] = invoices.rows;
-        return res.send({ company: companyObjOut })
+        console.log(companyAndIndustries.rows)
+        const { name, description } = companyAndIndustries.rows[0];
+        const industries = companyAndIndustries.rows.map(r => r.name);
+        let invoices = await db.query(`SELECT * FROM invoices WHERE comp_code = $1`, [code]);
+        invoices = invoices.rows;
+        return res.send({ code, name, description, invoices, industries})
     } catch (e) {
         return next(e)
     }
@@ -30,7 +40,8 @@ router.get('/:code', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     try {
-        const { code, name, description } = req.body;
+        const { name, description } = req.body;
+        const code = slugify(name, {replacement:'-', remove: '/[^a-z]/gi', lower:true});
         const results = await db.query(`INSERT INTO companies (code, name, description) VALUES ($1, $2, $3) RETURNING code, name, description`, [code, name, description]);
         return res.status(201).json({ company: results.rows[0] })
     } catch (e) {
