@@ -65,8 +65,7 @@ class Job {
    * { titleLike, minSalary, hasEquity } => [{ id, title, salary, equity, companyHandle }, ...]
    * 
    * */
-  static async findByCriteria(reqParams) {
-    let { titleLike, minSalary, hasEquity } = reqParams;
+  static async findByCriteria({ titleLike, minSalary, hasEquity }) {
     // for each parameter, we adjust the searchConstraintString
     let searchConstraintString = '';
     if(titleLike !== undefined) {
@@ -91,7 +90,7 @@ class Job {
     }
     if(hasEquity !== undefined) {
       if(hasEquity !== 'true' && hasEquity !== 'false') {
-        throw new ExpressError(`Parameter 'hasEquity': ${hasEquity} must be 'true' or 'false'`, 400);
+        throw new ExpressError(`Parameter 'hasEquity': ${hasEquity} ${typeof(hasEquity)} must be 'true' or 'false'`, 400);
       }
       if(searchConstraintString !== '') {
         searchConstraintString += ' AND ';

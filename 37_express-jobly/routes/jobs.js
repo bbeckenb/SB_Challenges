@@ -1,6 +1,6 @@
 "use strict";
 
-/** Routes for companies. */
+/** Routes for jobs. */
 
 const jsonschema = require("jsonschema");
 const express = require("express");
@@ -15,13 +15,13 @@ const jobUpdateSchema = require("../schemas/jobUpdate.json");
 const router = new express.Router();
 
 
-/** POST / { company } =>  { company }
+/** POST / { job } =>  { job }
  *
- * company should be { handle, name, description, numEmployees, logoUrl }
+ * job should be { title, salary, equity, companyHandle }
  *
- * Returns { handle, name, description, numEmployees, logoUrl }
+ * Returns { id, title, salary, equity, companyHandle }
  *
- * Authorization required: login
+ * Authorization required: admin
  */
 
 router.post("/", ensureLoggedIn, checksAdminAccess, async function (req, res, next) {
@@ -40,29 +40,22 @@ router.post("/", ensureLoggedIn, checksAdminAccess, async function (req, res, ne
 });
 
 /** GET /  =>
- *   { companies: [ { handle, name, description, numEmployees, logoUrl }, ...] }
+ *   { jobs: [ { id, title, salary, equity, companyHandle }, ...] }
  *
  * Can filter on provided search filters:
- * - minEmployees
- * - maxEmployees
- * - nameLike (will find case-insensitive, partial matches)
+ * - titleLike - returns partial matches of input string
+ * - minSalary - returns jobs that have >= salary threshold
+ * - hasEquity - returns jobs with equity if input is true, returns jobs w/ no equity if false
  *
  * Authorization required: none
  */
-router.get("/test", async function (req, res, next) {
-  try {
-    let companies = await Company.findAll();
-    return res.json({ companies })
-  } catch (e) {
-    next(e)
-  }
-})
+
 
 router.get("/", async function (req, res, next) {
   try {
     let jobs
-    // checks to make sure the only paramete3rs affecting our logic are the 3 intended search parameters
-    let { titleLike, minSalary, hasEquity } = req.query;
+    // checks to make sure the only parameters affecting our logic are the 3 intended search parameters
+    const { titleLike, minSalary, hasEquity } = req.query;
     //if no search parameters were included, send back a list of all companies using the existing findAll method
     if(!titleLike && !minSalary && !hasEquity) {
         jobs = await Job.findAll();
@@ -75,10 +68,9 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-/** GET /[handle]  =>  { company }
+/** GET /[id]  =>  { job }
  *
- *  Company is { handle, name, description, numEmployees, logoUrl, jobs }
- *   where jobs is [{ id, title, salary, equity }, ...]
+ *  {id} => job: { id, title, salary, equity, companyHandle }
  *
  * Authorization required: none
  */
@@ -92,15 +84,15 @@ router.get("/:id", async function (req, res, next) {
   }
 });
 
-/** PATCH /[handle] { fld1, fld2, ... } => { company }
+/** PATCH /[id] { fld1, fld2, ... } => { job }
  *
- * Patches company data.
+ * Patches job data.
  *
- * fields can be: { name, description, numEmployees, logo_url }
+ * fields can be: { title, salary, equity }
  *
- * Returns { handle, name, description, numEmployees, logo_url }
+ * Returns { id, title, salary, equity, companyHandle }
  *
- * Authorization required: login
+ * Authorization required: login, admin
  */
 
 
@@ -119,9 +111,9 @@ router.patch("/:id", ensureLoggedIn, checksAdminAccess, async function (req, res
   }
 });
 
-/** DELETE /[handle]  =>  { deleted: handle }
+/** DELETE /[id]  =>  { deleted: id }
  *
- * Authorization: login
+ * Authorization: login, admin
  */
 
 router.delete("/:id", ensureLoggedIn, checksAdminAccess, async function (req, res, next) {

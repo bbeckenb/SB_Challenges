@@ -49,14 +49,7 @@ router.post("/", ensureLoggedIn, checksAdminAccess, async function (req, res, ne
  *
  * Authorization required: none
  */
-router.get("/test", async function (req, res, next) {
-  try {
-    let companies = await Company.findAll();
-    return res.json({ companies })
-  } catch (e) {
-    next(e)
-  }
-})
+
 
 router.get("/", async function (req, res, next) {
   try {
