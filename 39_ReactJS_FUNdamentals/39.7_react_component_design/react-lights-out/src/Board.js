@@ -65,7 +65,6 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
 
       // DONE TODO: Make a (deep) copy of the oldBoard
       let copyOldBoard = _.cloneDeep(oldBoard);
-      console.log(oldBoard)
 
       // DONE TODO: in the copy, flip this cell and the cells around it
       flipCell(y, x, copyOldBoard);

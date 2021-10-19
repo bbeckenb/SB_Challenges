@@ -2,9 +2,11 @@
   height: 100px;
   width: 100px;
   background-color: rgb(10, 43, 4);
+  transition: background-color 400ms linear;
   cursor: pointer;
 }
 
 .Cell-lit {
   background-color: rgb(29, 207, 38);
+  transition: background-color 400ms linear;
 }

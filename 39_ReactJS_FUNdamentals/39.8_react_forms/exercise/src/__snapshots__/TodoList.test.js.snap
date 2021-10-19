@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <h1>
+      Make Todos!
+    </h1>
+    <form>
+      <label
+        for="todo"
+      >
+        Todo
+      </label>
+      <input
+        id="todo"
+        name="todo"
+        type="text"
+        value=""
+      />
+      <label
+        for="color"
+      >
+        Color
+      </label>
+      <input
+        id="color"
+        name="color"
+        type="color"
+        value="#00FF00"
+      />
+      <button>
+        Add Todo!
+      </button>
+    </form>
+    <div />
+  </div>
+</DocumentFragment>
+`;
