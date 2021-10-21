@@ -1,0 +1,15 @@
+.CardDeck-btn {
+    background-color: goldenrod;
+    height: 40px;
+    width: 100px;
+    border-radius: 5px;
+}
+
+.CardDeck-alert {
+    height: 100px;
+    background-color: red;
+    size: 50px;
+    text-decoration: royalblue;
+    text-shadow: royalblue;
+    text-decoration-style: solid;
+}
