@@ -1,0 +1,30 @@
+
+
+.VendingMachine {
+    background-image: url("https://wallpaperaccess.com/full/7149219.jpg");
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-around;
+}
+
+.VendingMachine-list {
+    size: 20px;
+}
+
+.VendingMachine-list-item {
+    color: rgb(25, 246, 246);
+    size: 20px;
+}
+
+.VendingMachine-Link {
+    color: rgb(25, 246, 246);
+    size: 20px;
+}
+
+.VendingMachine-Title {
+    color: violet;
+}

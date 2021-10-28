@@ -1,0 +1,14 @@
+.Parrot {
+    background-color: rgb(34, 195, 13);
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.Parrot-button {
+    height: 40px;
+}
