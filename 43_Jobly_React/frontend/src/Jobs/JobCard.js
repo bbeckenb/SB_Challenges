@@ -10,7 +10,6 @@ function JobCard({id, title, salary, equity, company}) {
 
     async function handleApply() {
         if (alreadyApplied(id)) {
-            console.log('here')
             return;
         }
         let out = await applyToJob(id);
@@ -19,16 +18,16 @@ function JobCard({id, title, salary, equity, company}) {
     }
 
     return (
-        <Card>
-            <CardBody>
+        <Card style={{ width: '800px', backgroundColor:'#F5EEF8'}}>
+            <CardBody >
                 <CardTitle className="font-weight-bold text-center">{title}</CardTitle>
                 <CardText>{company}</CardText>
                 <ListGroup>
-                    <ListGroupItem>Id: {id}</ListGroupItem>
-                    <ListGroupItem>Salary: {salary}</ListGroupItem>
-                    <ListGroupItem>Equity: {equity}</ListGroupItem>
+                    <ListGroupItem style={{ backgroundColor:'#FDF2E9'}}>Id: {id}</ListGroupItem>
+                    <ListGroupItem style={{ backgroundColor:'#FDF2E9'}}>Salary: {salary}</ListGroupItem>
+                    <ListGroupItem style={{ backgroundColor:'#FDF2E9'}}>Equity: {equity}</ListGroupItem>
                 </ListGroup>
-                {status ? <h3>Applied!</h3> : <Button onClick={evt => handleApply()} >Apply</Button>}
+                {status ? <h3>Applied!</h3> : <Button style={{backgroundColor:'#21618C'}} onClick={evt => handleApply()} >Apply</Button>}
             </CardBody>
         </Card>
     )

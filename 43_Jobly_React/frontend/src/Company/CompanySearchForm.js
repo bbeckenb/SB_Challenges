@@ -29,51 +29,53 @@ function CompanySearchForm({filterCompanies}) {
         setFormData(INIT_STATE);
     }
 
-    return (
-        <section className="col-md-4">
-          <Card>
-            <CardBody>
-              <CardTitle className="font-weight-bold text-center">
-                Filter Companies
-              </CardTitle>
-              <Form onSubmit={handleSubmit}>
-                  <FormGroup>
-                      <Label htmlFor="name">Includes Term:</Label>
-                      <Input
-                          id="name"
-                          name="name"
-                          placeholder="search term.."
-                          value={formData.name}
-                          onChange={handleChange}
-                      />
-                  </FormGroup>
-                  <FormGroup>
-                      <Label htmlFor="minEmployees">Min Employees:</Label>
-                      <Input
-                          id="minEmployees"
-                          name="minEmployees"
-                          type="number"
-                          placeholder="Minimum Employees"
-                          value={formData.minEmployees}
-                          onChange={handleChange}
-                      />
-                  </FormGroup>
-                  <FormGroup>
-                      <Label htmlFor="maxEmployees">Max Employees:</Label>
-                      <Input
-                          id="maxEmployees"
-                          name="maxEmployees"
-                          type="number"
-                          placeholder="Maximum Employees"
-                          value={formData.maxEmployees}
-                          onChange={handleChange}
-                      />
-                  </FormGroup>
-                  <Button>Filter</Button>
-              </Form>
-            </CardBody>
-          </Card>
-        </section>
+    return (  
+      <Card style={{ width: '800px', backgroundColor:'#AED6F1'}}>
+        <CardBody>
+          <CardTitle className="font-weight-bold text-center">
+            Filter Companies
+          </CardTitle>
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Label htmlFor="name">Includes Term:</Label>
+                <Input
+                    id="name"
+                    name="name"
+                    placeholder="search term.."
+                    value={formData.name}
+                    onChange={handleChange}
+                    style={{ backgroundColor:'#FDF2E9'}}
+                />
+            </FormGroup>
+              <FormGroup>
+                <Label htmlFor="minEmployees">Min Employees:</Label>
+                <Input
+                    id="minEmployees"
+                    name="minEmployees"
+                    type="number"
+                    placeholder="Minimum Employees"
+                    value={formData.minEmployees}
+                    onChange={handleChange}
+                    style={{ backgroundColor:'#FDF2E9'}}
+                />
+              </FormGroup>
+              <FormGroup>
+                  <Label htmlFor="maxEmployees">Max Employees:</Label>
+                  <Input
+                      id="maxEmployees"
+                      name="maxEmployees"
+                      type="number"
+                      placeholder="Maximum Employees"
+                      value={formData.maxEmployees}
+                      onChange={handleChange}
+                      style={{ backgroundColor:'#FDF2E9'}}
+                  />
+              </FormGroup>
+              <Button style={{backgroundColor:'#21618C'}}>Filter</Button>
+            </Form>
+          </CardBody>
+        </Card>
+        
       );
 }
 

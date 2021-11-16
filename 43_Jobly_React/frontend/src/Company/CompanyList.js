@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CompanyCard from "./CompanyCard";
 import CompanySearchForm from "./CompanySearchForm";
 import JoblyAPI from '../JoblyAPI';
+import {Container, Row} from 'reactstrap';
 
 
 
@@ -12,7 +13,6 @@ function CompanyList() {
   async function getCompanyList(query) {
     let companyList = await JoblyAPI.getCompanies(query);
     setCompanies(companyList);
-    console.log(companyList)
   }
 
   useEffect(() => {
@@ -20,10 +20,12 @@ function CompanyList() {
   }, [])
 
     return (
-        <div>
-          <CompanySearchForm filterCompanies={getCompanyList}/>
+      <Container>
+        <Row className="justify-content-lg-center">
+            <CompanySearchForm filterCompanies={getCompanyList}/>
             {companies.map(company => <CompanyCard key={company.handle} name={company.name} handle={company.handle} description={company.description} numEmployees={company.numEmployees}/>)}
-        </div>
+        </Row>
+      </Container>
     )
 }
 

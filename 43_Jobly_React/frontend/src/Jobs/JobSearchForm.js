@@ -37,8 +37,7 @@ function JobSearchForm({filterJobs}) {
     }
 
     return (
-        <section className="col-md-4">
-          <Card>
+      <Card style={{ width: '800px', backgroundColor:'#AED6F1'}}>
             <CardBody>
               <CardTitle className="font-weight-bold text-center">
                 Filter Jobs
@@ -52,6 +51,7 @@ function JobSearchForm({filterJobs}) {
                           placeholder="search term.."
                           value={formData.title}
                           onChange={handleChange}
+                          style={{ backgroundColor:'#FDF2E9'}}
                       />
                   </FormGroup>
                   <FormGroup>
@@ -63,6 +63,7 @@ function JobSearchForm({filterJobs}) {
                           placeholder="Minimum Employees"
                           value={formData.minSalary}
                           onChange={handleChange}
+                          style={{ backgroundColor:'#FDF2E9'}}
                       />
                   </FormGroup>
                   <FormGroup>
@@ -74,13 +75,13 @@ function JobSearchForm({filterJobs}) {
                           checked={isChecked}
                           value={formData.hasEquity}
                           onChange={handleChangeCheckBox}
+                          style={{ backgroundColor:'#FDF2E9'}}
                       />
                   </FormGroup>
-                  <Button>Filter</Button>
+                  <Button style={{backgroundColor:'#21618C'}}>Filter</Button>
               </Form>
             </CardBody>
           </Card>
-        </section>
       );
 }
 

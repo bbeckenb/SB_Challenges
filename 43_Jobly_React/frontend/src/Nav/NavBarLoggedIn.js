@@ -1,13 +1,15 @@
 import React, {useContext} from "react";
 import UserContext from "../User/UserContext";
-import { NavLink } from "react-router-dom";
-import {NavItem, Nav} from 'reactstrap';
+import { NavLink, Link } from "react-router-dom";
+import {NavItem, Nav, } from 'reactstrap';
+import "./NavBar.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function NavBarLoggedIn({ logout }) {
     const {currUser} = useContext(UserContext);
 
     return (
-        <Nav className="ml-auto" navbar>
+        <Nav className="justify-content-end">
             <NavItem>
                 <NavLink to="/companies">Companies</NavLink>
             </NavItem>
@@ -18,7 +20,7 @@ function NavBarLoggedIn({ logout }) {
                 <NavLink to="/profile">Profile</NavLink>
             </NavItem>
             <NavItem>
-                <NavLink onClick={logout} to="/">{`Logout ${currUser.username}`}</NavLink>
+                <Link onClick={logout} to="/">{`Logout ${currUser.username}`}</Link>
             </NavItem>
         </Nav>
     )

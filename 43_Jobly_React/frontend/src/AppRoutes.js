@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import UserContext from "./User/UserContext";
-import UserEditProfile from './User/UserEditProfile';
+import Profile from './User/Profile';
 import CompanyList from './Company/CompanyList';
 import CompanyDetails from './Company/CompanyDetails';
 import JobsList from './Jobs/JobsList';
@@ -19,7 +19,7 @@ function Routes({signUpUser, loginUser, updateUser}) {
             <Route exact path="/jobs">{currUser ? <JobsList /> : <Redirect to="/" />}</Route>
             <Route exact path="/login"><UserLoginForm loginUser={loginUser}/></Route>
             <Route exact path="/signup"><UserSignUpForm signUpUser={signUpUser}/></Route>
-            <Route exact path="/profile">{currUser ? <UserEditProfile updateUser={updateUser} /> : <Redirect to="/" />}</Route>
+            <Route exact path="/profile">{currUser ? <Profile updateUser={updateUser} /> : <Redirect to="/" />}</Route>
             <Redirect to="/" />
         </Switch> 
     )

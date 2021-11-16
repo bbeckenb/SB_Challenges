@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import {Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import {Card, CardBody, CardTitle, Form, FormGroup, Label, Input, Button, Container, Row} from 'reactstrap';
 
 function UserLoginForm({loginUser}) {
     const INIT_STATE = {username: '', password:''}
@@ -25,8 +25,9 @@ function UserLoginForm({loginUser}) {
     }
 
     return (
-        <section className="col-md-4">
-          <Card>
+      <Container>
+        <Row className="justify-content-lg-center">
+          <Card style={{ width: '800px', backgroundColor:'#AED6F1'}}>
             <CardBody>
               <CardTitle className="font-weight-bold text-center">
                 Log In!
@@ -40,6 +41,7 @@ function UserLoginForm({loginUser}) {
                           placeholder="username"
                           value={formData.username}
                           onChange={handleChange}
+                          style={{ backgroundColor:'#FDF2E9'}}
                       />
                   </FormGroup>
                   <FormGroup>
@@ -51,13 +53,15 @@ function UserLoginForm({loginUser}) {
                           type="password"
                           value={formData.password}
                           onChange={handleChange}
+                          style={{ backgroundColor:'#FDF2E9'}}
                       />
                   </FormGroup>
                   <Button>Submit</Button>
               </Form>
             </CardBody>
           </Card>
-        </section>
+        </Row>
+      </Container>
       );
 }
 

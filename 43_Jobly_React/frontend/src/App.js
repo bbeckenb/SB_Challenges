@@ -1,7 +1,8 @@
-//rough-arithmetic.surge.sh
+//jobly-demo-app-frontend.surge.sh
 import './App.css';
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Container, Row } from 'reactstrap';
 import Routes from './AppRoutes';
 import NavBar from './Nav/NavBar';
 import JoblyApi from './JoblyAPI';
@@ -85,7 +86,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" style={{height:'100vh', backgroundColor:'#A3E4D7'}}>
       <UserContext.Provider value={{currUser, applyToJob, alreadyApplied}}>
         <BrowserRouter>
           <NavBar logout={logout} />
