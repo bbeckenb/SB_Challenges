@@ -24,8 +24,8 @@ class YodlrApi {
         return await this.request(`users`);
     }
 
-    static async registerUser() {
-        
+    static async registerUser(userData) {
+        return await this.request('users', userData, 'post')
     }
 }
 

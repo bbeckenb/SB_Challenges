@@ -1,12 +1,14 @@
 import React from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
+import Home from './Home';
 import AdminPage from './AdminPage';
+import UserRegister from './users/UserRegister';
 
 function AppRoutes() {
     return(
         <Switch>
-            <Route exact path="/"><h1>Home</h1></Route>
-            <Route exact path="/register"><h1>REGISTER</h1></Route>
+            <Route exact path="/"><Home /></Route>
+            <Route exact path="/register"><UserRegister /></Route>
             <Route exact path="/admin"><AdminPage /></Route>
             <Redirect to="/" />
         </Switch>
