@@ -2,7 +2,6 @@
 import './App.css';
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Container, Row } from 'reactstrap';
 import Routes from './AppRoutes';
 import NavBar from './Nav/NavBar';
 import JoblyApi from './JoblyAPI';
