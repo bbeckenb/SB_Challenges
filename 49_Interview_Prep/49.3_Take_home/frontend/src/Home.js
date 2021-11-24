@@ -8,7 +8,7 @@ function Home() {
     return (
         <div>
             <h1 style={{ margin: '5px' }}><b><u>Yodlr!</u></b></h1>
-            <p>All the jobs in one, convenient place!</p>
+            <p>Register and view fellow Yodlrs!</p>
             <ButtonGroup>
                 <Button style={{backgroundColor:'#21618C'}} onClick={evt => {history.push('/register')}}>Register</Button>
                 <Button style={{backgroundColor:'#21618C'}} onClick={evt => {history.push('/admin')}}>Admin Page</Button>
