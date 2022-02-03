@@ -8,25 +8,17 @@ function freqCount(arr) {
 
 
 function solution(A, B) {
-    function sideCalculator(s1, s2) {
+    function sideCalculator(longStick, shortStick) {
         let possibleSideLengths = [];
-        for(let i = s1; i >= s2; i--) {
-            let sideLength = Math.floor(i/2);
-            if (s2 >= sideLength * 2) {
-                possibleSideLengths.push(sideLength)
-            } else {
-                sideLength = Math.floor(i/3);
-                if (s2 >= sideLength) {
-                    possibleSideLengths.push(sideLength)
-                } else {
-                    possibleSideLengths.push(sideLength)
-                }
-            }
+        possibleSideLengths.push(Math.floor(shortStick/2));
+        if (Math.floor(longStick/3) <= shortStick) {
+            possibleSideLengths.push(Math.floor(longStick/3));
         }
+        possibleSideLengths.push(Math.floor(longStick/4));
         return Math.max(...possibleSideLengths);
     }
-    //cornercase smallest A & B can be to make a square is 2 & 2
-    if(A < 2 && B < 2) return 0
+    //cornercase smallest combined integer value between A & B to make a square is 4
+    if(A + B < 4) return 0
     
     if (A >= B) {
         return sideCalculator(A, B)
@@ -35,4 +27,7 @@ function solution(A, B) {
     }
 }
 
+solution(1,3);
+solution(1, 8);
 solution(13, 11);
+solution(10, 21);
