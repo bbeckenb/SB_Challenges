@@ -401,3 +401,5 @@ console.log('lst8.average()', lst8.average()); //4.1429
 
 let lst9 = new LinkedList();
 console.log('lst9.average()', lst9.average()); //0
+
+module.exports = LinkedList;

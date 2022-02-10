@@ -24,11 +24,11 @@ class Stack {
     if(!this.first){
       this.first = newNode;
       this.last = newNode;
-   } 
+    } 
     newNode.next = this.first;
     this.first = newNode;
     this.size++;
-  }
+    }
 
   /** pop(): remove the node from the top of the stack
    * and return its value. Should throw an error if the stack is empty. */
