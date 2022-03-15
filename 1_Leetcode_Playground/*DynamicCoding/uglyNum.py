@@ -50,23 +50,11 @@ import math
 # primeFactors(n)
 class Solution:
     def isUgly(self, n: int) -> bool:
-        if n == 1:
-            return True
-        prime_num_arr = [2,3,5]
-        prime_factors_arr = []
-        if n % 2 == 0:
-            prime_factors_arr.append(2)
-        while n % 2 == 0:
-            n = int(n / 2)
-        for i in range(3,n+1,2):
-            hold_num = n
-            while n % i== 0:
-                prime_factors_arr.append(int(i))
-                n = int(n / i)
-        for num in prime_factors_arr:
-            if num not in prime_num_arr:
-                return False
-        return True
+        if n == 0: return False
+        while n % 5 == 0: n /= 5
+        while n % 3 == 0: n /= 3
+        while n % 2 == 0: n /= 2
+        return n == 1
 
 pp = Solution()
 print(pp.isUgly(14))
