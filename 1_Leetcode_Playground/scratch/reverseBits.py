@@ -30,4 +30,3 @@ class Solution:
         return output_sum
 
 pp = Solution()
-pp.reverseBits(00000010100101000001111010011100)
